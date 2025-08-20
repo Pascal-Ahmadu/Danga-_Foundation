@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --primary: 142 76% 36%;
+    --brown: 30 67% 25%;
+  }
+
+  * {
+    @apply border-gray-200;
+  }
+  
+  body {
+    @apply bg-white text-gray-900 font-sans font-light;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-light;
+  }
+  
+  /* Ensure all text elements inherit the light weight */
+  p, span, div, a, li, td, th, label {
+    @apply font-light;
+  }
+}
+
+@layer components {
+  .container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
+  .section-padding {
+    @apply py-16 lg:py-24;
+  }
+  
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
+  }
+  
+  .btn-primary {
+    @apply bg-green-600 text-white px-6 py-3 font-medium rounded-lg
+           hover:bg-amber-800 transition-colors duration-200
+           focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2;
+  }
+  
+  .btn-secondary {
+    @apply bg-white text-green-600 border-2 border-green-600 px-6 py-3 font-medium rounded-lg
+           hover:bg-amber-800 hover:text-white hover:border-amber-800 transition-colors duration-200
+           focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2;
+  }
+  
+  .text-gradient {
+    @apply bg-gradient-to-r from-green-600 to-amber-800 bg-clip-text text-transparent;
+  }
+}

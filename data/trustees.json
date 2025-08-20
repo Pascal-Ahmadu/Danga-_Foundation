@@ -1,0 +1,29 @@
+[
+  {
+    "name": "Joshua Emmanuel",
+    "role": "Trustee Chairman",
+    "phone": "07063074132",
+    "email": "jevfutu@gmail.com",
+    "gender": "Male",
+    "dob": "1990-12-17",
+    "address": "Plot 1153 Mazarga Close, Mabushi, FCT"
+  },
+  {
+    "name": "Emmanuel Happy Kwaji",
+    "role": "Trustee",
+    "phone": "08028686068",
+    "email": "happykwaji@gmail.com",
+    "gender": "Female",
+    "dob": "1996-11-23",
+    "address": "Plot 1153 Mazarga Close, Mabushi, FCT"
+  },
+  {
+    "name": "Joshua Barka Vandi",
+    "role": "Trustee",
+    "phone": "08126841668",
+    "email": "barkajoshuav@gmail.com",
+    "gender": "Male",
+    "dob": "1985-05-05",
+    "address": "Flat 201, Block B CBN Quarters, Damboa Road, Maiduguri, Borno"
+  }
+]
