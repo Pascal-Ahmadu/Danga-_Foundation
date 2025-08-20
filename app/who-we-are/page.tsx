@@ -63,66 +63,63 @@ export default function WhoWeAre() {
   return (
     <div className="pt-20">
       {/* Hero Section */}
-      <section className="section-padding bg-gradient-to-br from-primary to-accent text-white">
+      <section className="section-padding bg-white">
         <div className="container">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-light mb-6">
-              Who We Are
+          <div className="max-w-6xl mx-auto">
+            <div className="mb-4">
+              <p className="text-gray-600 text-sm font-medium tracking-wide uppercase">
+                Danga Memorial Foundation
+              </p>
+            </div>
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-light text-gray-900 mb-8">
+              Who we are
             </h1>
-            <p className="text-xl md:text-2xl leading-relaxed opacity-90 font-light">
-              We are a community-driven organization dedicated to empowering lives 
-              and building sustainable futures through education, health, and development programs.
-            </p>
+            <div className="max-w-2xl">
+              <p className="text-xl md:text-2xl text-gray-700 leading-relaxed font-light">
+                The Danga Memorial Foundation works across Nigeria to help communities 
+                affected by poverty and lack of opportunities to survive, recover and 
+                rebuild their lives through education, health, and sustainable development programs.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Mission, Vision & Values */}
-      <section className="section-padding bg-gray-50">
+      <section className="section-padding bg-white">
         <div className="container">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-20">
-            <div className="space-y-8">
-              <div>
-                <div className="flex items-center mb-4">
-                  <Target className="h-8 w-8 text-primary mr-3" />
-                  <h2 className="text-3xl font-light text-gray-900">Our Mission</h2>
-                </div>
-                <p className="text-lg text-gray-600 leading-relaxed font-light">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
+              {/* Mission */}
+              <div className="space-y-4">
+                <h2 className="text-2xl font-light text-gray-900 mb-6">Our Mission</h2>
+                <p className="text-gray-700 leading-relaxed">
                   To empower communities through sustainable education, health, and development programs 
                   that create lasting positive change and break cycles of poverty, ensuring every individual 
                   has the opportunity to reach their full potential.
                 </p>
               </div>
               
-              <div>
-                <div className="flex items-center mb-4">
-                  <Eye className="h-8 w-8 text-primary mr-3" />
-                  <h2 className="text-3xl font-light text-gray-900">Our Vision</h2>
-                </div>
-                <p className="text-lg text-gray-600 leading-relaxed font-light">
+              {/* Vision */}
+              <div className="space-y-4">
+                <h2 className="text-2xl font-light text-gray-900 mb-6">Our Vision</h2>
+                <p className="text-gray-700 leading-relaxed">
                   A world where every individual has access to quality education, healthcare, and opportunities 
                   to thrive, regardless of their socioeconomic background or geographical location.
                 </p>
               </div>
-            </div>
-            
-            <div className="bg-white p-8 shadow-lg">
-              <h3 className="text-2xl font-light text-gray-900 mb-6">Our Core Values</h3>
-              <div className="space-y-6">
-                {values.map((value) => {
-                  const Icon = value.icon;
-                  return (
-                    <div key={value.title} className="flex items-start">
-                      <div className="w-10 h-10 bg-brown/10 flex items-center justify-center mr-4 flex-shrink-0">
-                        <Icon className="h-5 w-5 text-brown" />
-                      </div>
-                      <div>
-                        <h4 className="text-lg font-medium text-gray-900 mb-1">{value.title}</h4>
-                        <p className="text-gray-600 font-light">{value.description}</p>
-                      </div>
+              
+              {/* Values */}
+              <div className="space-y-4">
+                <h2 className="text-2xl font-light text-gray-900 mb-6">Our Values</h2>
+                <div className="space-y-6">
+                  {values.map((value) => (
+                    <div key={value.title}>
+                      <h3 className="text-lg font-medium text-gray-900 mb-2">{value.title}</h3>
+                      <p className="text-gray-700 text-sm leading-relaxed">{value.description}</p>
                     </div>
-                  );
-                })}
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -134,7 +131,7 @@ export default function WhoWeAre() {
         <div className="container">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-light text-gray-900 mb-4">
-              Our <span className="text-gradient">Journey</span>
+              Our Journey
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto font-light">
               From humble beginnings to impacting thousands of lives, here's how we've grown 
@@ -144,15 +141,15 @@ export default function WhoWeAre() {
 
           <div className="max-w-4xl mx-auto">
             <div className="relative">
-              <div className="absolute left-4 md:left-1/2 md:transform md:-translate-x-1/2 h-full w-0.5 bg-brown/20"></div>
+              <div className="absolute left-4 md:left-1/2 md:transform md:-translate-x-1/2 h-full w-0.5 bg-blue-600/20"></div>
               
               {milestones.map((milestone, index) => (
                 <div key={milestone.year} className="relative flex items-center mb-12 last:mb-0">
-                  <div className="absolute left-0 md:left-1/2 md:transform md:-translate-x-1/2 w-8 h-8 bg-brown border-4 border-white shadow-lg z-10"></div>
+                  <div className="absolute left-0 md:left-1/2 md:transform md:-translate-x-1/2 w-8 h-8 bg-blue-600 border-4 border-white z-10"></div>
                   
                   <div className={`ml-12 md:ml-0 md:w-1/2 ${index % 2 === 0 ? 'md:pr-12 md:text-right' : 'md:pl-12 md:ml-auto'}`}>
-                    <div className="bg-white p-6 shadow-lg border border-gray-100">
-                      <div className="text-brown font-medium text-xl mb-2">{milestone.year}</div>
+                    <div className="bg-white p-6 border-l-4 border-blue-600">
+                      <div className="text-blue-600 font-medium text-xl mb-2">{milestone.year}</div>
                       <h3 className="text-xl font-medium text-gray-900 mb-2">{milestone.title}</h3>
                       <p className="text-gray-600 font-light">{milestone.description}</p>
                     </div>

@@ -11,9 +11,8 @@ export default function Home() {
       <Hero />
       <Mission />
       <Programs />
-      <Impact />
       <News />
-      <CTA />
+      
     </>
   );
 }

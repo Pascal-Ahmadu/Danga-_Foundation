@@ -13,64 +13,58 @@ const programs = [
   {
     icon: Users,
     title: 'Youth Empowerment',
-    description: 'Providing skills training, mentorship, and leadership development programs to help young people become productive members of society.',
+    description: 'Providing comprehensive skills training, mentorship, and leadership development programs to help young people become productive members of society. Our youth empowerment initiatives focus on building practical skills, fostering entrepreneurship, and creating pathways to sustainable employment. We work closely with young individuals to identify their strengths, develop their talents, and connect them with opportunities that align with their aspirations. Through workshops, internships, and ongoing support, we help youth overcome barriers and build confidence to contribute meaningfully to their communities.',
     href: '/what-we-do/youth-empowerment',
-    color: 'from-primary to-accent',
     stats: { number: '500+', label: 'Youth Trained' }
   },
   {
     icon: Brain,
     title: 'Psycho-Social Support',
-    description: 'Mental health support and counseling services to help individuals overcome trauma and build resilience.',
+    description: 'Mental health support and counseling services to help individuals overcome trauma and build resilience. Our psycho-social programs address the emotional and psychological needs of community members who have experienced various forms of trauma, stress, or mental health challenges. We provide both individual and group counseling sessions, trauma-informed care, and community-based support systems. Our trained counselors work with families, children, and adults to develop coping strategies, build emotional resilience, and create supportive networks that promote healing and recovery.',
     href: '/what-we-do/psycho-social-support',
-    color: 'from-brown to-brown-light',
     stats: { number: '200+', label: 'People Supported' }
   },
   {
     icon: GraduationCap,
     title: 'Education',
-    description: 'Scholarships, school supplies, and educational support to ensure every child has access to quality learning opportunities.',
+    description: 'Scholarships, school supplies, and educational support to ensure every child has access to quality learning opportunities. Our education programs go beyond providing financial assistance to include academic mentoring, educational infrastructure support, and teacher training initiatives. We believe education is the foundation for breaking cycles of poverty and creating sustainable change. Our comprehensive approach includes early childhood development, primary and secondary education support, vocational training, and higher education scholarships for deserving students who demonstrate academic excellence and financial need.',
     href: '/what-we-do/education',
-    color: 'from-accent to-primary',
     stats: { number: '150+', label: 'Scholarships Given' }
   },
   {
     icon: HeartHandshake,
     title: 'Health & Wellness',
-    description: 'Healthcare services, medical outreaches, and health education programs to improve community well-being.',
+    description: 'Healthcare services, medical outreaches, and health education programs to improve community well-being. Our health and wellness initiatives provide essential medical care, preventive health services, and health education to underserved communities. We organize regular medical outreaches, vaccination campaigns, and health screening programs. Our team of healthcare professionals works to address both immediate health needs and long-term wellness goals through community health education, nutrition programs, and partnerships with local healthcare facilities to ensure sustainable access to quality medical care.',
     href: '/what-we-do/health-and-wellness',
-    color: 'from-brown-dark to-brown',
     stats: { number: '1,000+', label: 'People Reached' }
   },
   {
     icon: Droplets,
     title: 'WASH Programs',
-    description: 'Water, Sanitation, and Hygiene programs to ensure communities have access to clean water and proper sanitation.',
+    description: 'Water, Sanitation, and Hygiene programs to ensure communities have access to clean water and proper sanitation facilities. Our WASH initiatives focus on providing sustainable solutions to water scarcity, poor sanitation, and inadequate hygiene practices that affect community health. We work with communities to build and maintain water systems, construct sanitation facilities, and implement hygiene education programs. Our approach emphasizes community ownership and sustainability, ensuring that water and sanitation infrastructure remains functional and well-maintained for years to come.',
     href: '/what-we-do/wash',
-    color: 'from-primary-light to-accent',
     stats: { number: '15+', label: 'Communities' }
   },
   {
     icon: Leaf,
     title: 'Environment Sustainability',
-    description: 'Environmental conservation projects and sustainable development initiatives to protect our planet for future generations.',
+    description: 'Environmental conservation projects and sustainable development initiatives to protect our planet for future generations. Our environmental sustainability programs address climate change, environmental degradation, and unsustainable resource use through community-based conservation projects. We implement tree planting initiatives, promote renewable energy solutions, support sustainable agriculture practices, and conduct environmental education programs. Our goal is to help communities adopt environmentally friendly practices while meeting their economic and social needs, creating a balance between development and conservation.',
     href: '/what-we-do/environment-sustainability',
-    color: 'from-brown to-primary',
     stats: { number: '10+', label: 'Projects' }
   }
 ];
 
 export default function Programs() {
   return (
-    <section className="section-padding bg-white">
-      <div className="container">
+    <section className="py-16 md:py-24 bg-white">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-gray-900 mb-4">
-            Our <span className="text-gradient">Impact Programs</span>
+            Our <span className="bg-gradient-to-r from-amber-600 to-amber-800 bg-clip-text text-transparent">Impact Programs</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto font-light">
             We focus on six key areas that create sustainable change and empower communities 
-            to thrive independently.
+            to thrive independently through comprehensive, community-driven initiatives.
           </p>
         </div>
 
@@ -81,32 +75,29 @@ export default function Programs() {
               <Link
                 key={program.title}
                 href={program.href}
-                className={`group block animate-slide-up card-hover`}
-                style={{ animationDelay: `${index * 0.1}s` }}
+                className="group block transition-all duration-300 hover:transform hover:scale-105"
               >
-                <div className="bg-white p-8 shadow-lg h-full border border-gray-100 
-                                group-hover:border-brown/20 transition-colors duration-300">
-                  <div className={`w-16 h-16 bg-gradient-to-r ${program.color} rounded-2xl 
-                                   flex items-center justify-center mb-6 group-hover:scale-110 
-                                   transition-transform duration-300`}>
-                    <Icon className="h-8 w-8 text-white" />
+                <div className="bg-white p-8 shadow-sm hover:shadow-md h-full border border-gray-100 
+                                group-hover:border-amber-700/20 transition-all duration-300">
+                  <div className="flex items-center justify-center mb-6">
+                    <Icon className="h-12 w-12 text-amber-700 font-light" strokeWidth="1" />
                   </div>
                   
-                  <h3 className="text-xl font-medium text-gray-900 mb-3 group-hover:text-brown 
+                  <h3 className="text-xl font-light text-gray-900 mb-3 group-hover:text-amber-700 
                                  transition-colors duration-300">
                     {program.title}
                   </h3>
                   
-                  <p className="text-gray-600 mb-6 leading-relaxed font-light">
+                  <p className="text-gray-600 mb-6 leading-relaxed font-light text-justify">
                     {program.description}
                   </p>
                   
                   <div className="flex items-center justify-between">
                     <div>
-                      <div className="text-2xl font-light text-brown">{program.stats.number}</div>
+                      <div className="text-2xl font-light text-amber-700">{program.stats.number}</div>
                       <div className="text-sm text-gray-500 font-light">{program.stats.label}</div>
                     </div>
-                    <ArrowRight className="h-5 w-5 text-gray-400 group-hover:text-brown 
+                    <ArrowRight className="h-5 w-5 text-gray-400 group-hover:text-amber-700 
                                            group-hover:translate-x-1 transition-all duration-300" />
                   </div>
                 </div>
@@ -118,7 +109,7 @@ export default function Programs() {
         <div className="text-center mt-16">
           <Link
             href="/what-we-do"
-            className="btn-primary inline-flex items-center"
+            className="px-6 py-3 bg-amber-700 text-white hover:bg-amber-800 transition-colors duration-300 font-medium inline-flex items-center"
           >
             View All Programs
             <ArrowRight className="ml-2 h-5 w-5" />
