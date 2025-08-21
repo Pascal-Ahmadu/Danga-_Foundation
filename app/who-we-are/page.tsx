@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import Image from 'next/image';
 import TrusteeCard from '@/components/ui/TrusteeCard';
 import { Target, Eye, Heart, Users, Award, Globe } from 'lucide-react';
 import trustees from '@/data/trustees.json';
@@ -93,9 +94,9 @@ export default function WhoWeAre() {
               {/* Mission */}
               <div className="space-y-4">
                 <h2 className="text-2xl font-light text-gray-900 mb-6">Our Mission</h2>
-                <p className="text-gray-700 leading-relaxed">
-                  To empower communities through sustainable education, health, and development programs 
-                  that create lasting positive change and break cycles of poverty, ensuring every individual 
+                <p className="text-gray-700 leading-relaxed font-light">
+                  Our foundation is built on the belief that sustainable change begins with empowering communities 
+                  through education, health initiatives, and meaningful opportunities that create lasting positive change and break cycles of poverty, ensuring every individual 
                   has the opportunity to reach their full potential.
                 </p>
               </div>
@@ -103,7 +104,7 @@ export default function WhoWeAre() {
               {/* Vision */}
               <div className="space-y-4">
                 <h2 className="text-2xl font-light text-gray-900 mb-6">Our Vision</h2>
-                <p className="text-gray-700 leading-relaxed">
+                <p className="text-gray-700 leading-relaxed font-light">
                   A world where every individual has access to quality education, healthcare, and opportunities 
                   to thrive, regardless of their socioeconomic background or geographical location.
                 </p>
@@ -116,7 +117,7 @@ export default function WhoWeAre() {
                   {values.map((value) => (
                     <div key={value.title}>
                       <h3 className="text-lg font-medium text-gray-900 mb-2">{value.title}</h3>
-                      <p className="text-gray-700 text-sm leading-relaxed">{value.description}</p>
+                      <p className="text-gray-700 text-sm leading-relaxed font-light">{value.description}</p>
                     </div>
                   ))}
                 </div>
@@ -130,12 +131,13 @@ export default function WhoWeAre() {
       <section className="section-padding bg-white">
         <div className="container">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-light text-gray-900 mb-4">
-              Our Journey
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-gray-900 mb-4">
+              Our{' '}
+              <span className="bg-gradient-to-r from-amber-600 to-amber-800 bg-clip-text text-transparent">Journey</span>
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto font-light">
-              From humble beginnings to impacting thousands of lives, here's how we've grown 
-              and evolved to better serve our communities.
+              Our foundation is built on the belief that sustainable change begins with empowering communities 
+              through education, health initiatives, and meaningful opportunities.
             </p>
           </div>
 
@@ -161,49 +163,120 @@ export default function WhoWeAre() {
         </div>
       </section>
 
-      {/* Trustees Section */}
+      {/* Leadership Section */}
       <section className="section-padding bg-gray-50">
         <div className="container">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-light text-gray-900 mb-4">
-              Our <span className="text-gradient">Leadership</span>
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto font-light">
-              Meet the dedicated individuals who guide our vision and ensure we stay true 
-              to our mission of empowering communities.
-            </p>
-          </div>
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+              {/* Chairman Image */}
+              <div className="relative">
+                <div className="aspect-[4/5] bg-gradient-to-br from-amber-100 to-amber-50 rounded-lg overflow-hidden">
+                  <Image
+                    src="/images/chairman.jpg"
+                    alt="Chairman of Danga Memorial Foundation"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
+                </div>
+              </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {trustees.map((trustee, index) => (
-              <TrusteeCard 
-                key={trustee.email} 
-                trustee={trustee} 
-                index={index} 
-              />
-            ))}
+              {/* Leadership Content */}
+              <div className="space-y-8">
+                <div>
+                  <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-gray-900 mb-4">
+                    Our{' '}
+                    <span className="bg-gradient-to-r from-amber-600 to-amber-800 bg-clip-text text-transparent">leadership</span>
+                  </h2>
+                </div>
+
+                <div className="space-y-6">
+                  <p className="text-lg text-gray-700 leading-relaxed font-light">
+                    Our Chairman leads the Danga Memorial Foundation with an executive team, 
+                    Board of Directors, and leadership councils who bring a wealth of experience 
+                    and expertise to our organization.
+                  </p>
+                  
+                  <p className="text-lg text-gray-700 leading-relaxed font-light">
+                    Together, in close collaboration with our teams across Nigeria, they shape 
+                    our vision and strategy, and share a steadfast belief that the communities 
+                    we serve are the best agents of their own change.
+                  </p>
+                </div>
+
+                <div className="pt-6">
+                  <button className="group inline-flex items-center space-x-3 text-amber-700 hover:text-amber-800 transition-colors duration-200">
+                    <span className="text-lg font-medium tracking-wide uppercase">MEET OUR LEADERSHIP</span>
+                    <svg 
+                      className="w-6 h-6 transform group-hover:translate-x-1 transition-transform duration-200" 
+                      fill="none" 
+                      stroke="currentColor" 
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Call to Action */}
-      <section className="section-padding bg-primary text-white">
+      {/* Careers Section */}
+      <section className="section-padding bg-white">
         <div className="container">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-light mb-6">
-              Join Our Mission
-            </h2>
-            <p className="text-xl mb-8 opacity-90 font-light">
-              We believe that sustainable change happens when communities come together. 
-              Join us in creating lasting impact across Nigeria.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-white text-primary px-8 py-3 font-medium hover:bg-gray-100 transition-colors duration-200">
-                Get Involved
-              </button>
-              <button className="border-2 border-white text-white px-8 py-3 font-medium hover:bg-brown hover:border-brown transition-colors duration-200">
-                Learn More
-              </button>
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+              {/* Careers Image */}
+              <div className="relative order-2 lg:order-1">
+                <div className="aspect-[4/5] bg-gradient-to-br from-amber-100 to-amber-50 rounded-lg overflow-hidden">
+                  <Image
+                    src="/volunteers.jpg"
+                    alt="Volunteers and team members at Danga Memorial Foundation"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
+                </div>
+              </div>
+
+              {/* Careers Content */}
+              <div className="space-y-8 order-1 lg:order-2">
+                <div>
+                  <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-gray-900 mb-4">
+                    Join our{' '}
+                    <span className="bg-gradient-to-r from-amber-600 to-amber-800 bg-clip-text text-transparent">mission</span>
+                  </h2>
+                </div>
+
+                <div className="space-y-6">
+                  <p className="text-lg text-gray-700 leading-relaxed font-light">
+                    We believe that sustainable change happens when communities come together 
+                    with passionate individuals who are committed to making a difference.
+                  </p>
+                  
+                  <p className="text-lg text-gray-700 leading-relaxed font-light">
+                    Join our team of dedicated professionals and volunteers who work tirelessly 
+                    to empower communities across Nigeria through education, health initiatives, 
+                    and sustainable development programs.
+                  </p>
+                </div>
+
+                <div className="pt-6">
+                  <button className="group inline-flex items-center space-x-3 text-amber-700 hover:text-amber-800 transition-colors duration-200">
+                    <span className="text-lg font-medium tracking-wide uppercase">EXPLORE CAREERS</span>
+                    <svg 
+                      className="w-6 h-6 transform group-hover:translate-x-1 transition-transform duration-200" 
+                      fill="none" 
+                      stroke="currentColor" 
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>

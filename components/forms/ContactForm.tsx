@@ -1,41 +1,24 @@
 'use client';
 
-import { useState } from 'react';
-import { Send } from 'lucide-react';
+import React, { useState } from 'react';
+import { Send, Phone, Mail, MapPin, Clock } from 'lucide-react';
 
-const inquiryTypes = [
-  'General Information',
-  'Volunteer Opportunities',
-  'Partnership Inquiry',
-  'Donation Questions',
-  'Program Information',
-  'Media Inquiry',
-  'Other'
-];
-
-export default function ContactForm() {
+const ContactFormComponent = () => {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    name: '',
     email: '',
-    phone: '',
-    inquiryType: '',
     subject: '',
+    category: '',
     message: ''
   });
-
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+  const handleInputChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     setIsSubmitting(true);
 
     try {
@@ -51,143 +34,167 @@ export default function ContactForm() {
 
   if (isSubmitted) {
     return (
-      <div className="bg-white p-8 shadow-lg border border-gray-100 text-center">
-        <div className="w-16 h-16 bg-brown/10 flex items-center justify-center mx-auto mb-4">
-          <Send className="h-8 w-8 text-brown" />
-        </div>
-        <h3 className="text-2xl font-light text-gray-900 mb-4">Message Sent!</h3>
-        <p className="text-gray-600 font-light">
-          Thank you for reaching out. We'll get back to you within 24 hours.
-        </p>
+      <div className="pt-20">
+        <section className="section-padding bg-white">
+          <div className="container">
+            <div className="max-w-2xl mx-auto text-center">
+              <div className="w-16 h-16 bg-blue-100 flex items-center justify-center mx-auto mb-6">
+                <Send className="h-8 w-8 text-blue-600" />
+              </div>
+              <h2 className="text-3xl font-light text-gray-900 mb-4">Message Sent!</h2>
+              <p className="text-lg text-gray-600 font-light">
+                Thank you for reaching out. We'll get back to you within 24 hours.
+              </p>
+            </div>
+          </div>
+        </section>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-8 shadow-lg border border-gray-100">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            First Name *
-          </label>
-          <input
-            type="text"
-            name="firstName"
-            value={formData.firstName}
-            onChange={handleChange}
-            required
-            className="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brown focus:border-brown font-light"
-          />
+    <div className="pt-20">
+      {/* Hero Section */}
+      <section className="section-padding bg-white">
+        <div className="container">
+          <div className="max-w-4xl mx-auto">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-gray-900 mb-8">
+              We're here to help.
+            </h1>
+            <div className="max-w-2xl">
+              <p className="text-lg text-gray-700 leading-relaxed font-light mb-4">
+                For inquiries, questions, or to get involved, please call us at{' '}
+                <a href="tel:+2347063074132" className="text-blue-600 underline">+234 706 307 4132</a>,
+                Mon-Fri, 9:00am-5pm WAT.
+              </p>
+              
+              <p className="text-gray-700 font-light mb-4">
+                <strong>To visit our office:</strong><br />
+                Danga Memorial Foundation<br />
+                Plot 1153 Mazarga Close<br />
+                Mabushi, FCT<br />
+                Abuja, Nigeria
+              </p>
+
+              <p className="text-gray-700 font-light mb-4">
+                To inquire about volunteer opportunities or partnership possibilities, please 
+                email us at <a href="mailto:info@dangamemorialfoundation.org" className="text-blue-600 underline">info@dangamemorialfoundation.org</a> or call our 
+                office team at <a href="tel:+2347063074132" className="text-blue-600 underline">+234 706 307 4132</a>.
+              </p>
+
+              <p className="text-gray-700 font-light mb-4">
+                Questions about our programs, scholarships, or community initiatives? <a href="#" className="text-blue-600 underline">Click here</a>.
+              </p>
+
+              <p className="text-gray-700 font-light mb-4">
+                For press inquiries, please reach out to our <a href="mailto:media@dangamemorialfoundation.org" className="text-blue-600 underline">media team</a>.
+              </p>
+
+              <p className="text-gray-700 font-light mb-4">
+                To see our current projects and impact stories, please visit <a href="#" className="text-blue-600 underline">this page</a>.
+              </p>
+
+              <p className="text-gray-700 font-light mb-4">
+                For a list of our Nigeria office locations, <a href="#" className="text-blue-600 underline">click here</a>.
+              </p>
+
+              <p className="text-gray-700 font-light mb-8">
+                For other inquiries, please submit the form below and we'll be in touch shortly:
+              </p>
+            </div>
+          </div>
         </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Last Name *
-          </label>
-          <input
-            type="text"
-            name="lastName"
-            value={formData.lastName}
-            onChange={handleChange}
-            required
-            className="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brown focus:border-brown font-light"
-          />
+      </section>
+
+      {/* Contact Form */}
+      <section className="section-padding bg-white">
+        <div className="container">
+          <div className="max-w-2xl mx-auto">
+            <div className="space-y-6">
+              
+              <div>
+                <label className="block text-gray-700 mb-2 font-medium">Your Name *</label>
+                <input
+                  type="text"
+                  value={formData.name}
+                  onChange={(e) => handleInputChange('name', e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-light"
+                />
+              </div>
+
+              <div>
+                <label className="block text-gray-700 mb-2 font-medium">Your Email *</label>
+                <input
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => handleInputChange('email', e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-light"
+                />
+              </div>
+
+              <div>
+                <label className="block text-gray-700 mb-2 font-medium">Subject *</label>
+                <input
+                  type="text"
+                  value={formData.subject}
+                  onChange={(e) => handleInputChange('subject', e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-light"
+                />
+              </div>
+
+              <div>
+                <label className="block text-gray-700 mb-2 font-medium">Category *</label>
+                <select
+                  value={formData.category}
+                  onChange={(e) => handleInputChange('category', e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-light"
+                >
+                  <option value="">Please choose</option>
+                  <option value="general">General Information</option>
+                  <option value="volunteer">Volunteer Opportunities</option>
+                  <option value="partnership">Partnership Inquiry</option>
+                  <option value="donation">Donation Questions</option>
+                  <option value="programs">Program Information</option>
+                  <option value="scholarship">Scholarship Inquiry</option>
+                  <option value="media">Media Inquiry</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-gray-700 mb-2 font-medium">Message *</label>
+                <textarea
+                  value={formData.message}
+                  onChange={(e) => handleInputChange('message', e.target.value)}
+                  rows={8}
+                  className="w-full px-4 py-3 border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-light resize-vertical"
+                  placeholder="Please provide details about your inquiry..."
+                />
+              </div>
+
+              <button 
+                onClick={handleSubmit}
+                disabled={isSubmitting}
+                className="bg-blue-600 text-white px-8 py-3 hover:bg-blue-700 transition-colors font-medium flex items-center disabled:bg-gray-400 disabled:cursor-not-allowed"
+              >
+                {isSubmitting ? (
+                  <>
+                    <div className="animate-spin w-5 h-5 border-2 border-white border-t-transparent mr-2"></div>
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    Send message →
+                  </>
+                )}
+              </button>
+
+            </div>
+          </div>
         </div>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Email Address *
-          </label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            className="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brown focus:border-brown font-light"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Phone Number
-          </label>
-          <input
-            type="tel"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            className="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brown focus:border-brown font-light"
-          />
-        </div>
-      </div>
-
-      <div className="mb-6">
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Inquiry Type *
-        </label>
-        <select
-          name="inquiryType"
-          value={formData.inquiryType}
-          onChange={handleChange}
-          required
-          className="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brown focus:border-brown font-light"
-        >
-          <option value="">Select inquiry type</option>
-          {inquiryTypes.map((type) => (
-            <option key={type} value={type}>{type}</option>
-          ))}
-        </select>
-      </div>
-
-      <div className="mb-6">
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Subject *
-        </label>
-        <input
-          type="text"
-          name="subject"
-          value={formData.subject}
-          onChange={handleChange}
-          required
-          className="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brown focus:border-brown font-light"
-        />
-      </div>
-
-      <div className="mb-8">
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Message *
-        </label>
-        <textarea
-          name="message"
-          value={formData.message}
-          onChange={handleChange}
-          required
-          rows={6}
-          className="w-full px-4 py-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brown focus:border-brown font-light resize-vertical"
-          placeholder="Please provide details about your inquiry..."
-        />
-      </div>
-
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="w-full bg-brown text-white py-4 font-medium hover:bg-primary 
-                   transition-colors duration-200 disabled:bg-gray-300 disabled:cursor-not-allowed
-                   flex items-center justify-center"
-      >
-        {isSubmitting ? (
-          <>
-            <div className="animate-spin w-5 h-5 border-2 border-white border-t-transparent mr-2"></div>
-            Sending...
-          </>
-        ) : (
-          <>
-            <Send className="mr-2 h-5 w-5" />
-            Send Message
-          </>
-        )}
-      </button>
-    </form>
+      </section>
+    </div>
   );
-}
+};
+
+export default ContactFormComponent;
