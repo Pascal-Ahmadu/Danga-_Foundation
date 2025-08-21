@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight, Heart, Users, BookOpen } from 'lucide-react';
@@ -25,7 +25,7 @@ interface CTAButton {
 }
 
 // Constants moved outside component for better performance
-const STATS_DATA: StatItem[] = [
+const STATS_DATA: readonly StatItem[] = [
   {
     id: 'lives-impacted',
     icon: Users,
@@ -49,7 +49,7 @@ const STATS_DATA: StatItem[] = [
   }
 ] as const;
 
-const CTA_BUTTONS: CTAButton[] = [
+const CTA_BUTTONS: readonly CTAButton[] = [
   {
     id: 'donate-cta',
     href: '/donate',
