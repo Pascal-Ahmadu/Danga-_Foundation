@@ -39,7 +39,7 @@ export default function Footer() {
             <div className="flex items-center space-x-3 mb-6">
               <div className="relative w-12 h-12">
                 <Image
-                  src="/logo.png"
+                  src="/Logo.png"
                   alt="Danga Memorial Foundation Logo"
                   fill
                   className="object-contain"

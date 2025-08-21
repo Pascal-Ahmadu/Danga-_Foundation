@@ -47,7 +47,7 @@ export default function Navbar() {
           <Link href="/" className="flex items-center flex-shrink-0">
             <div className="relative w-16 h-16 lg:w-20 lg:h-20">
               <Image
-                src="/logo.png" // Replace with your actual logo path
+                src="/Logo.png" // Replace with your actual logo path
                 alt="Danga Memorial Foundation Logo"
                 fill
                 className="object-contain"
