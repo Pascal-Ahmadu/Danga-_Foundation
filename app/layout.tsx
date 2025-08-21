@@ -4,7 +4,13 @@ import { Inter } from 'next/font/google';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 
-const inter = Inter({ subsets: ['latin'] });
+// Configure Inter font with specific weights and display options
+const inter = Inter({ 
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'], // Add the weights you need
+  display: 'swap', // Improve loading performance
+  variable: '--font-inter', // Optional: CSS variable for more control
+});
 
 export const metadata: Metadata = {
   title: {
@@ -58,7 +64,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className={inter.className}>
+      <body className={`${inter.className} antialiased`}>
         <Navbar />
         <main className="min-h-screen">
           {children}
