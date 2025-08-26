@@ -3,27 +3,27 @@ import { ArrowRight } from 'lucide-react';
 
 const news = [
   {
-    title: 'New Comprehensive Scholarship Program Launched',
-    excerpt: 'We are excited to announce the launch of our significantly expanded scholarship program, providing comprehensive educational opportunities to 50 more deserving students across Nigeria with mentorship programs and career guidance.',
+    title: 'Scholarship Program Planned',
+    excerpt: 'We are preparing to launch an expanded scholarship program to provide more deserving students across Nigeria with access to quality education, mentorship, and career guidance opportunities.',
     date: '2024-01-15',
     category: 'Education',
     slug: 'scholarship-program-2024',
     image: 'https://images.pexels.com/photos/5088179/pexels-photo-5088179.jpeg?auto=compress&cs=tinysrgb&w=800'
   },
   {
-    title: 'Community Health Outreach Reaches 500 Families',
-    excerpt: 'Our recent comprehensive health outreach program provided essential medical care and extensive health education to over 500 families across 15 different communities with ongoing health monitoring systems.',
+    title: 'Upcoming Community Health Outreach',
+    excerpt: 'Plans are underway to organize health outreach programs that will offer essential medical care, health education, and support for communities in need. These efforts aim to improve access to healthcare and promote long-term well-being.',
     date: '2024-01-10',
     category: 'Health',
-    slug: 'health-outreach-success',
+    slug: 'health-outreach-plans',
     image: 'https://images.pexels.com/photos/6975474/pexels-photo-6975474.jpeg?auto=compress&cs=tinysrgb&w=800'
   },
   {
-    title: 'Youth Empowerment Workshop Shows Results',
-    excerpt: 'Our intensive three-month youth empowerment workshop concluded with 85% of participants successfully securing meaningful employment or starting sustainable businesses through practical skills training and mentorship.',
+    title: 'Youth Empowerment Workshop in Development',
+    excerpt: 'We are developing youth empowerment workshops that will focus on practical skills training, mentorship, and entrepreneurship. The goal is to prepare young people for meaningful employment and opportunities to create sustainable livelihoods.',
     date: '2024-01-05',
     category: 'Youth Development',
-    slug: 'youth-workshop-results',
+    slug: 'youth-workshop-plans',
     image: 'https://images.pexels.com/photos/8093073/pexels-photo-8093073.jpeg?auto=compress&cs=tinysrgb&w=800'
   }
 ];
@@ -34,14 +34,13 @@ export default function News() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
         <div className="mb-16">
           <p className="text-lg text-gray-700 max-w-4xl font-light leading-relaxed">
-            Danga Memorial Foundation provides critical programs through cost-effective, evidence-based 
-            programming that transform lives—but we need your help. Learn more about our 
-            work below.
+            Danga Memorial Foundation is building programs that aim to transform lives in the future—but we
+            need your help. Learn more about our upcoming initiatives below.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {news.map((article, index) => (
+          {news.map((article) => (
             <Link
               key={article.slug}
               href={`/blog/${article.slug}`}
@@ -59,7 +58,7 @@ export default function News() {
                 
                 {/* Content */}
                 <div className="p-6 bg-white">
-                  <h3 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-amber-700 transition-colors duration-300">
+                  <h3 className="text-xl font-light text-gray-900 mb-4 group-hover:text-brand transition-colors duration-300">
                     {article.title}
                     <ArrowRight className="inline-block ml-2 h-5 w-5 opacity-0 group-hover:opacity-100 transition-all duration-300" />
                   </h3>
@@ -70,7 +69,7 @@ export default function News() {
                 </div>
 
                 {/* Bottom accent line */}
-                <div className="h-1 bg-amber-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
+                <div className="h-1 bg-brand transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
               </div>
             </Link>
           ))}
@@ -79,7 +78,7 @@ export default function News() {
         <div className="text-center mt-12">
           <Link
             href="/blog"
-            className="px-6 py-3 bg-amber-700 text-white hover:bg-amber-800 transition-colors duration-300 font-medium inline-flex items-center"
+            className="px-6 py-3 bg-brand text-white hover:bg-brand-dark transition-colors duration-300 font-light inline-flex items-center"
           >
             View All News
             <ArrowRight className="ml-2 h-5 w-5" />

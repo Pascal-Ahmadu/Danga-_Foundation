@@ -1,0 +1,176 @@
+// ---------------------------
+// Prisma Generator & Datasource
+// ---------------------------
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql" // can be mysql or sqlite if needed
+  url      = env("DATABASE_URL")
+}
+
+// ---------------------------
+// Models
+// ---------------------------
+
+// User Model
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  password  String
+  role      UserRole @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  posts        BlogPost[]
+  applications JobApplication[]
+
+  @@map("users")
+}
+
+// Blog Post Model
+model BlogPost {
+  id        String      @id @default(cuid())
+  title     String
+  slug      String      @unique
+  content   String      @db.Text
+  excerpt   String?
+  image     String?
+  category  String
+  status    PostStatus  @default(DRAFT)
+  readTime  String?
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  
+  // Relations
+  authorId  String
+  author    User        @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@map("blog_posts")
+}
+
+// Job Model
+model Job {
+  id           String        @id @default(cuid())
+  title        String
+  slug         String        @unique
+  department   String
+  location     String
+  type         JobType
+  description  String        @db.Text
+  requirements String        @db.Text
+  salary       String?
+  deadline     DateTime
+  status       JobStatus     @default(ACTIVE)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  // Relations
+  applications JobApplication[]
+
+  @@map("jobs")
+}
+
+// Job Application Model
+model JobApplication {
+  id          String            @id @default(cuid())
+  firstName   String
+  lastName    String
+  email       String
+  phone       String
+  coverLetter String?           @db.Text
+  resumeUrl   String?
+  status      ApplicationStatus @default(PENDING)
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  // Relations
+  jobId       String
+  job         Job               @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  userId      String?
+  user        User?             @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@map("job_applications")
+}
+
+// Donation Model (Bank Transfer Only)
+model Donation {
+  id            String         @id @default(cuid())
+  donorName     String
+  donorEmail    String
+  amount        Decimal        @db.Decimal(10, 2)
+  currency      String         @default("NGN")
+  purpose       String
+  message       String?        @db.Text
+  paymentMethod String         @default("BANK_TRANSFER")
+  transactionId String?        @unique // Bank transaction reference (optional)
+  reference     String?        @unique // Internal system reference
+  anonymous     Boolean        @default(false)
+  status        DonationStatus @default(PENDING)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  @@map("donations")
+}
+
+// Contact Message Model
+model ContactMessage {
+  id        String    @id @default(cuid())
+  name      String
+  email     String
+  subject   String?
+  message   String    @db.Text
+  status    String    @default("UNREAD") // UNREAD, READ, RESPONDED
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@map("contact_messages")
+}
+
+// ---------------------------
+// Enums
+// ---------------------------
+
+enum UserRole {
+  USER
+  ADMIN
+  SUPER_ADMIN
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum JobType {
+  FULL_TIME
+  PART_TIME
+  VOLUNTEER
+  INTERNSHIP
+}
+
+enum JobStatus {
+  ACTIVE
+  CLOSED
+  DRAFT
+}
+
+enum ApplicationStatus {
+  PENDING
+  UNDER_REVIEW
+  SHORTLISTED
+  INTERVIEWED
+  ACCEPTED
+  REJECTED
+}
+
+enum DonationStatus {
+  PENDING
+  SUCCESS
+  FAILED
+  REFUNDED
+}

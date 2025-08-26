@@ -1,19 +1,19 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { usePathname } from 'next/navigation';
-import { Menu, X } from 'lucide-react';
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
+import { Menu, X } from "lucide-react";
 
 const navigation = [
-  { name: 'Home', href: '/' },
-  { name: 'Who We Are', href: '/who-we-are' },
-  { name: 'What We Do', href: '/what-we-do' },
-  { name: 'Gallery', href: '/gallery' },
-  { name: 'Blog', href: '/blog' },
-  { name: 'Scholarship', href: '/scholarship' },
-  { name: 'Contact', href: '/contact' },
+  { name: "Home", href: "/" },
+  { name: "Who We Are", href: "/who-we-are" },
+  { name: "What We Do", href: "/what-we-do" },
+  { name: "Gallery", href: "/gallery" },
+  { name: "Blog", href: "/blog" },
+  { name: "Scholarship", href: "/scholarship" },
+  { name: "Contact", href: "/contact" },
 ];
 
 export default function Navbar() {
@@ -26,28 +26,30 @@ export default function Navbar() {
       setIsScrolled(window.scrollY > 10);
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const isActive = (href: string) => {
-    if (href === '/') {
+    if (href === "/") {
       return pathname === href;
     }
     return pathname.startsWith(href);
   };
 
   return (
-    <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-      isScrolled ? 'bg-white shadow-md' : 'bg-white/98 backdrop-blur-sm'
-    }`}>
+    <nav
+      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+        isScrolled ? "bg-white shadow-md" : "bg-white/98 backdrop-blur-sm"
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-24 lg:h-28">
           {/* Logo */}
           <Link href="/" className="flex items-center flex-shrink-0">
-            <div className="relative w-16 h-16 lg:w-20 lg:h-20">
+            <div className="relative w-20 h-20 lg:w-28 lg:h-28">
               <Image
-                src="/Logo.png" // Replace with your actual logo path
+                src="/Logo.png"
                 alt="Danga Memorial Foundation Logo"
                 fill
                 className="object-contain"
@@ -62,11 +64,19 @@ export default function Navbar() {
               <Link
                 key={item.name}
                 href={item.href}
-                className={`text-sm lg:text-base font-medium uppercase tracking-wide transition-colors duration-200 hover:text-amber-700 ${
-                  isActive(item.href) ? 'text-amber-700' : 'text-gray-700'
+                className={`group relative text-sm lg:text-base font-medium uppercase tracking-wide transition-colors duration-200 ${
+                  isActive(item.href)
+                    ? "text-brand"
+                    : "text-gray-700 hover:text-brand"
                 }`}
               >
                 {item.name}
+                {/* Underline animation */}
+                <span
+                  className={`absolute left-0 -bottom-1 h-0.5 bg-brand transition-all duration-300 ${
+                    isActive(item.href) ? "w-full" : "w-0 group-hover:w-full"
+                  }`}
+                />
               </Link>
             ))}
           </div>
@@ -75,9 +85,9 @@ export default function Navbar() {
           <div className="hidden lg:block flex-shrink-0">
             <Link
               href="/donate"
-              className="bg-blue-600 text-white px-8 py-3 text-sm font-bold uppercase tracking-wide
-                         hover:bg-amber-700 transition-all duration-200 focus:outline-none 
-                         focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 transform hover:scale-105"
+              className="bg-brand text-white px-8 py-3 text-sm font-bold uppercase tracking-wide
+                         hover:bg-brand/90 transition-all duration-200 focus:outline-none 
+                         focus:ring-2 focus:ring-brand focus:ring-offset-2 transform hover:scale-105"
             >
               Donate
             </Link>
@@ -86,7 +96,7 @@ export default function Navbar() {
           {/* Mobile menu button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="lg:hidden p-2 rounded-md hover:bg-gray-100 transition-colors duration-200"
+            className="lg:hidden p-2 hover:bg-gray-100 transition-colors duration-200"
             aria-label="Toggle menu"
           >
             {isOpen ? (
@@ -109,7 +119,9 @@ export default function Navbar() {
                   href={item.href}
                   onClick={() => setIsOpen(false)}
                   className={`block text-base font-medium uppercase tracking-wide transition-colors duration-200 ${
-                    isActive(item.href) ? 'text-amber-700' : 'text-gray-700 hover:text-amber-700'
+                    isActive(item.href)
+                      ? "text-brand"
+                      : "text-gray-700 hover:text-brand"
                   }`}
                 >
                   {item.name}
@@ -118,8 +130,8 @@ export default function Navbar() {
               <Link
                 href="/donate"
                 onClick={() => setIsOpen(false)}
-                className="block w-full text-center bg-blue-600 text-white px-6 py-4 text-base font-bold uppercase tracking-wide
-                           hover:bg-amber-700 transition-all duration-200 mt-6"
+                className="block w-full text-center bg-brand text-white px-6 py-4 text-base font-bold uppercase tracking-wide
+                           hover:bg-brand/90 transition-all duration-200 mt-6"
               >
                 Donate
               </Link>

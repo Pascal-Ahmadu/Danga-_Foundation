@@ -1,3 +1,4 @@
+
 import type { Config } from 'tailwindcss';
 
 const config: Config = {
@@ -10,20 +11,10 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: {
-          DEFAULT: '#1E3A8A', // Deep Blue
-          light: '#3B82F6',   // Light Blue
-          dark: '#1E40AF',    // Dark Blue
-        },
-        accent: {
-          DEFAULT: '#2563EB', // Medium Blue
-          light: '#60A5FA',   // Lighter Blue
-          dark: '#1D4ED8',    // Darker Blue
-        },
-        brown: {
-          DEFAULT: '#8B5E3C', // Warm Brown
-          light: '#A0845C',   // Light Brown
-          dark: '#6B4423',    // Dark Brown
+        brand: {
+          DEFAULT: '#1D4ED8', // Logo Blue
+          light: '#3B82F6',   // Light variant
+          dark: '#1E3A8A',    // Dark variant
         },
         background: '#F8FAFC',
         foreground: '#0F172A',
