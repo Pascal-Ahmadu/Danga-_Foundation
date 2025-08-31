@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Calendar, Clock, ArrowLeft, ChevronRight, ArrowRight } from 'lucide-react';
-import ShareButtons from '@/app/blog/shareButtons'; // Client component for sharing
+import ShareButtons from '@/app/(main)/blog/shareButtons'; // Client component for sharing
 
 
 // Define types
