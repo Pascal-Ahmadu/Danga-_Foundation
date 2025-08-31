@@ -134,33 +134,33 @@ export default function Footer() {
               <div className="flex items-center space-x-3">
                 <Mail className="h-5 w-5 text-brand flex-shrink-0" />
                 <a
-                  href="mailto:info@dangamemorialfoundation.org"
+                  href="mailto:info@dangafoundation.org"
                   className="text-gray-600 break-all hover:text-brand transition-colors duration-200 hover:underline"
                   aria-label="Send email to Danga Memorial Foundation"
                 >
-                  info@dangamemorialfoundation.org
+                  info@dangafoundation.org
                 </a>
               </div>
               <div className="flex items-center space-x-3">
                 <Phone className="h-5 w-5 text-brand flex-shrink-0" />
                 <a
-                  href="tel:+2347063074132"
+                  href="tel:+2349111226666"
                   className="text-gray-600 hover:text-brand transition-colors duration-200 hover:underline"
                   aria-label="Call Danga Memorial Foundation"
                 >
-                  +234 706 307 4132
+                  +234 911 122 6666
                 </a>
               </div>
               <div className="flex items-center space-x-3">
                 <MapPin className="h-5 w-5 text-brand flex-shrink-0" />
                 <a
-                  href="https://www.google.com/maps/search/?api=1&query=Mabushi,+FCT,+Nigeria"
+                  href="https://www.google.com/maps/search/?api=1&query=4B+King+AJ+Turner+Crescent,+Wuye,+Abuja,+Nigeria"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-600 hover:text-brand transition-colors duration-200 hover:underline"
                   aria-label="View Danga Memorial Foundation location on Google Maps"
                 >
-                  Mabushi, FCT, Nigeria
+                  4B King AJ Turner Crescent, Wuye, Abuja, Nigeria
                 </a>
               </div>
             </div>
