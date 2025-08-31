@@ -3,7 +3,7 @@ import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Calendar, Clock, ArrowRight } from "lucide-react";
-import BlogFilters from '@/app/blog/blogFilters'; // Client component for filters
+import BlogFilters from '@/app/(main)/blog/blogFilters'; // Client component for filters
 
 export const metadata: Metadata = {
   title: "Blog - Latest News & Stories | Danga Memorial Foundation",
