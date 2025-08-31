@@ -27,10 +27,10 @@ const playfair = Playfair_Display({
 // Comprehensive metadata
 export const metadata: Metadata = {
   title: {
-    default: 'Danga NGO - Empowering Communities Through Action',
-    template: '%s | Danga NGO',
+    default: 'Danga Foundation - Empowering Communities Through Action',
+    template: '%s | Danga Foundation',
   },
-  description: 'Danga NGO is dedicated to improving lives through healthcare, education, and community development projects across Nigeria. Join us in making a difference.',
+  description: 'Danga Foundation is dedicated to improving lives through healthcare, education, and community development projects across Nigeria. Join us in making a difference.',
   keywords: [
     'NGO', 
     'charity', 
@@ -41,39 +41,39 @@ export const metadata: Metadata = {
     'social impact',
     'community empowerment'
   ],
-  authors: [{ name: 'Danga NGO', url: 'https://www.danga.org' }],
-  creator: 'Danga NGO',
-  publisher: 'Danga NGO',
+  authors: [{ name: 'Danga Foundation', url: 'https://www.dangafoundation.org' }],
+  creator: 'Danga Foundation',
+  publisher: 'Danga Foundation',
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('https://www.danga.org'),
+  metadataBase: new URL('https://www.dangafoundation.org'),
   alternates: {
     canonical: '/',
   },
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://www.danga.org',
-    siteName: 'Danga NGO',
-    title: 'Danga NGO - Empowering Communities Through Action',
+    url: 'https://www.dangafoundation.org',
+    siteName: 'Danga Foundation',
+    title: 'Danga Foundation - Empowering Communities Through Action',
     description: 'Improving lives through healthcare, education, and community development across Nigeria.',
     images: [
       {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Danga NGO - Empowering Communities',
+        alt: 'Danga Foundation - Empowering Communities',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    site: '@dangango',
-    creator: '@dangango',
-    title: 'Danga NGO - Empowering Communities',
+    site: '@dangafoundation',
+    creator: '@dangafoundation',
+    title: 'Danga Foundation - Empowering Communities',
     description: 'Join us in making a difference through community development.',
     images: ['/twitter-image.jpg'],
   },
@@ -88,11 +88,7 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-  verification: {
-    google: 'your-google-verification-code',
-    // yandex: 'your-yandex-verification-code',
-    // yahoo: 'your-yahoo-verification-code',
-  },
+  
   category: 'non-profit',
 };
 
