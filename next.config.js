@@ -9,6 +9,8 @@ const nextConfig = {
   experimental: {
     serverComponentsExternalPackages: ['@prisma/client'],
   },
+  // Add this line to fix Google Fonts timeout
+  optimizeFonts: false,
   // Add webpack configuration to handle Prisma during build
   webpack: (config, { isServer }) => {
     if (isServer) {
