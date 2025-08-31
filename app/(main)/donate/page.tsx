@@ -62,8 +62,8 @@ const DonationFormComponent = () => {
                         empower families across Nigeria.
                       </p>
                       <p>
-                        <strong className="font-medium">Our teams are already making a difference</strong> 
-                        in over 25 communities nationwide, working alongside local leaders to build 
+                        <strong className="font-medium">Our teams are ready to make a difference</strong> 
+                        in communities nationwide, working alongside local leaders to build 
                         stronger, more resilient futures for all Nigerians.
                       </p>
                     </div>
@@ -115,10 +115,10 @@ const DonationFormComponent = () => {
                         <div className="flex justify-between items-center">
                           <div>
                             <p className="text-sm text-gray-600 font-light">Account Number</p>
-                            <p className="font-medium text-gray-900 text-lg">2034567890</p>
+                            <p className="font-medium text-gray-900 text-lg">••••••7890</p>
                           </div>
                           <button
-                            onClick={() => handleCopyAccount('2034567890')}
+                            onClick={() => handleCopyAccount('••••••7890')}
                             className="p-2 text-brand hover:bg-brand/10 transition-colors"
                             title="Copy account number"
                           >
@@ -149,7 +149,6 @@ const DonationFormComponent = () => {
                         {' '}with your full name and email address to receive your donation receipt.
                       </p>
                     </div>
-
 
                   </div>
 

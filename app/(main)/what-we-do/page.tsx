@@ -54,7 +54,7 @@ const programs = [
     description: 'Comprehensive skills training, mentorship programs, and leadership development initiatives designed to equip young people with the tools they need to become productive, self-reliant members of society.',
     href: '/what-we-do/youth-empowerment',
     features: ['Skills Training', 'Mentorship Programs', 'Leadership Development', 'Career Guidance'],
-    impact: '500+ Youth Trained'
+    impact: 'Target: 500+ Youth'
   },
   {
     icon: Brain,
@@ -62,7 +62,7 @@ const programs = [
     description: 'Mental health support services, trauma counseling, and resilience-building programs to help individuals overcome psychological challenges and build emotional strength.',
     href: '/what-we-do/psycho-social-support',
     features: ['Mental Health Support', 'Trauma Counseling', 'Resilience Building', 'Community Therapy'],
-    impact: '200+ People Supported'
+    impact: 'Target: 200+ People'
   },
   {
     icon: GraduationCap,
@@ -70,7 +70,7 @@ const programs = [
     description: 'Scholarship programs, educational materials, school infrastructure support, and learning enhancement initiatives to ensure quality education access for all children.',
     href: '/what-we-do/education',
     features: ['Scholarship Programs', 'School Supplies', 'Infrastructure Support', 'Teacher Training'],
-    impact: '150+ Scholarships Given'
+    impact: 'Target: 150+ Scholarships'
   },
   {
     icon: HeartHandshake,
@@ -78,7 +78,7 @@ const programs = [
     description: 'Healthcare services, medical outreaches, health education programs, and wellness initiatives to improve overall community health and well-being.',
     href: '/what-we-do/health-and-wellness',
     features: ['Medical Outreach', 'Health Education', 'Wellness Programs', 'Preventive Care'],
-    impact: '1,000+ People Reached'
+    impact: 'Target: 1,000+ People'
   },
   {
     icon: Droplets,
@@ -86,7 +86,7 @@ const programs = [
     description: 'Water, Sanitation, and Hygiene programs focused on providing clean water access, proper sanitation facilities, and hygiene education to communities.',
     href: '/what-we-do/wash',
     features: ['Clean Water Access', 'Sanitation Facilities', 'Hygiene Education', 'Community Training'],
-    impact: '15+ Communities Served'
+    impact: 'Target: 15+ Communities'
   },
   {
     icon: Leaf,
@@ -94,7 +94,7 @@ const programs = [
     description: 'Environmental conservation projects, sustainable development initiatives, and climate change awareness programs to protect our planet for future generations.',
     href: '/what-we-do/environment-sustainability',
     features: ['Conservation Projects', 'Sustainable Development', 'Climate Awareness', 'Green Initiatives'],
-    impact: '10+ Projects Completed'
+    impact: 'Target: 10+ Projects'
   }
 ];
 
@@ -174,7 +174,7 @@ export default function WhatWeDo() {
               </h1>
               <div className="max-w-2xl">
                 <p className="text-xl md:text-2xl text-gray-700 leading-relaxed font-light">
-                  Our comprehensive programs address the most critical needs in communities across Nigeria, 
+                  Our comprehensive programs are designed to address the most critical needs in communities across Nigeria, 
                   creating sustainable change through education, health, and empowerment initiatives.
                 </p>
               </div>
@@ -209,9 +209,8 @@ export default function WhatWeDo() {
                 </div>
               </div>
               <p className="text-sm text-gray-600 font-light mb-16">
-                Figure 1: DMF team working with families to foster strong unity. They 
-                collaborate with community leaders to organize safe educational activities so that 
-                new talent finds good reason.
+                Our vision: Building collaborative partnerships with communities to create 
+                sustainable development opportunities and foster unity across Nigeria.
               </p>
             </div>
           </div>
@@ -230,13 +229,13 @@ export default function WhatWeDo() {
                 </div>
                 <div className="space-y-6">
                   <p className="text-lg text-gray-700 leading-relaxed font-light">
-                    Since our foundation was founded in 2024, we have been guided by trust – 
+                    Since our foundation was established in 2024, we have been guided by trust – 
                     the conviction that even in times of conflict and climate change, we must challenge 
-                    bad ideas and the lived experiences of people who know their communities best – scaling 
+                    barriers and center the lived experiences of people who know their communities best – scaling 
                     what works to achieve lasting, transformational change.
                   </p>
                   <p className="text-lg text-gray-700 leading-relaxed font-light">
-                    We connect people across the globe to clean water, nutritious food, better 
+                    Our mission is to connect people across Nigeria to clean water, nutritious food, better 
                     economic opportunities, and more peaceful tomorrows – all critical to unlocking 
                     the power of human potential and strengthening communities to better cope 
                     during crises, adapt to evolving challenges, and thrive into the future.
@@ -263,7 +262,7 @@ export default function WhatWeDo() {
                   <div className="text-center text-white relative z-10">
                     <Droplets className="w-24 h-24 mx-auto mb-4 opacity-95" />
                     <h4 className="text-2xl font-light mb-2">Clean Water Access</h4>
-                    <p className="text-lg opacity-90">15+ Communities Served</p>
+                    <p className="text-lg opacity-90">Our WASH Vision</p>
                   </div>
                   {/* Simple pattern overlay */}
                   <div className="absolute inset-0 opacity-5">
@@ -279,16 +278,16 @@ export default function WhatWeDo() {
                 </div>
                 <div>
                   <h3 className="text-2xl md:text-3xl font-light text-gray-900 mb-6">
-                    Improving clean water access
+                    Our approach to clean water access
                   </h3>
                   <p className="text-lg text-gray-700 leading-relaxed font-light">
-                    Access to clean and safe water is a human right. We 
-                    provide lifesaving support to the midst of emergencies 
-                    and collaborate with local organizations to implement 
+                    Access to clean and safe water is a human right. We plan to 
+                    provide lifesaving support during emergencies and 
+                    collaborate with local organizations to implement 
                     longer-term solutions. By facilitating clean water access, 
-                    sanitation, and community training, we invest in healthier 
-                    communities to grow food, build, where children can learn and people are 
-                    better able to meet their everyday needs and take on 
+                    sanitation, and community training, we aim to invest in healthier 
+                    communities where children can learn and people are 
+                    better able to meet their everyday needs and prepare for 
                     what's next.
                   </p>
                 </div>
@@ -307,7 +306,7 @@ export default function WhatWeDo() {
                   <span className="bg-gradient-to-r from-brand to-brand-light bg-clip-text text-transparent">Community Development</span>
                 </h2>
                 <p className="text-xl text-gray-600 max-w-3xl mx-auto font-light">
-                  Our approach is holistic and sustainable, addressing interconnected challenges 
+                  Our approach is holistic and sustainable, designed to address interconnected challenges 
                   that communities face while building local capacity for long-term success.
                 </p>
               </div>
@@ -318,7 +317,7 @@ export default function WhatWeDo() {
                   <div className="text-center text-white relative z-10">
                     <Users className="w-20 h-20 mx-auto mb-4 opacity-95" />
                     <h4 className="text-2xl font-light mb-2">Youth Empowerment</h4>
-                    <p className="text-lg opacity-90">500+ Youth Trained</p>
+                    <p className="text-lg opacity-90">Empowering the Next Generation</p>
                   </div>
                   <div className="absolute inset-0 opacity-5">
                     <svg className="w-full h-full" viewBox="0 0 100 100">
@@ -352,19 +351,19 @@ export default function WhatWeDo() {
                   </h3>
                   <p className="text-lg text-gray-700 leading-relaxed font-light">
                     All people deserve to have reliable access to quality education 
-                    and learning opportunities. In times of crisis, we deliver swift 
+                    and learning opportunities. In times of crisis, we plan to deliver swift 
                     aid to households to help them quickly meet their basic 
-                    educational needs. Our teams also help people cultivate 
+                    educational needs. Our teams will help people cultivate 
                     strength and stability — by supporting learning 
                     communities and adaptive methods to grow resilient 
-                    programs and preserve land in the face of climate change.
+                    programs and preserve opportunities in the face of climate change.
                   </p>
                 </div>
                 <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-white border-2 border-brand flex items-center justify-center order-1 lg:order-2">
                   <div className="text-center text-brand relative z-10">
                     <GraduationCap className="w-20 h-20 mx-auto mb-4 opacity-90" />
                     <h4 className="text-2xl font-light mb-2">Education</h4>
-                    <p className="text-lg opacity-80">150+ Scholarships Given</p>
+                    <p className="text-lg opacity-80">Learning for All</p>
                   </div>
                   <div className="absolute inset-0 opacity-5">
                     <svg className="w-full h-full" viewBox="0 0 100 100">
@@ -385,7 +384,7 @@ export default function WhatWeDo() {
                   <div className="text-center text-white relative z-10">
                     <HeartHandshake className="w-20 h-20 mx-auto mb-4 opacity-95" />
                     <h4 className="text-2xl font-light mb-2">Health & Wellness</h4>
-                    <p className="text-lg opacity-90">1,000+ People Reached</p>
+                    <p className="text-lg opacity-90">Community Health Focus</p>
                   </div>
                   <div className="absolute inset-0 opacity-5">
                     <svg className="w-full h-full" viewBox="0 0 100 100">
@@ -405,11 +404,11 @@ export default function WhatWeDo() {
                   <p className="text-lg text-gray-700 leading-relaxed font-light">
                     A healthier future is possible when everyone has the 
                     ability to establish sustainable livelihoods and make 
-                    shameless choices. We connect people and achieve to the 
+                    informed choices. We aim to connect people to the 
                     market opportunities that power a flourishing local 
-                    economy. From micro-loans to people-driven ideas, to helping 
+                    economy. From micro-loans to community-driven initiatives, to helping 
                     develop business skills, unlock financial resources, and 
-                    forge a path forward.
+                    forge a path forward toward better health outcomes.
                   </p>
                 </div>
               </div>
@@ -422,8 +421,8 @@ export default function WhatWeDo() {
                   </h3>
                   <p className="text-lg text-gray-700 leading-relaxed font-light">
                     Water, Sanitation, and Hygiene programs focused on providing clean water access, 
-                    proper sanitation facilities, and hygiene education to communities. We work with 
-                    local partners to ensure sustainable solutions that improve health outcomes and 
+                    proper sanitation facilities, and hygiene education to communities. We plan to work with 
+                    local partners to ensure sustainable solutions that will improve health outcomes and 
                     quality of life for entire communities.
                   </p>
                 </div>
@@ -431,7 +430,7 @@ export default function WhatWeDo() {
                   <div className="text-center text-brand relative z-10">
                     <Droplets className="w-20 h-20 mx-auto mb-4 opacity-90" />
                     <h4 className="text-2xl font-light mb-2">WASH Programs</h4>
-                    <p className="text-lg opacity-80">15+ Communities Served</p>
+                    <p className="text-lg opacity-80">Clean Water Initiative</p>
                   </div>
                   <div className="absolute inset-0 opacity-5">
                     <svg className="w-full h-full" viewBox="0 0 100 100">
@@ -452,7 +451,7 @@ export default function WhatWeDo() {
                   <div className="text-center text-white relative z-10">
                     <Brain className="w-20 h-20 mx-auto mb-4 opacity-95" />
                     <h4 className="text-2xl font-light mb-2">Psycho-Social Support</h4>
-                    <p className="text-lg opacity-90">200+ People Supported</p>
+                    <p className="text-lg opacity-90">Mental Health Advocacy</p>
                   </div>
                   <div className="absolute inset-0 opacity-5">
                     <svg className="w-full h-full" viewBox="0 0 100 100">
@@ -472,7 +471,7 @@ export default function WhatWeDo() {
                   <p className="text-lg text-gray-700 leading-relaxed font-light">
                     Mental health support services, trauma counseling, and resilience-building programs 
                     to help individuals overcome psychological challenges and build emotional strength. 
-                    We provide comprehensive support systems that address both individual and community 
+                    We plan to provide comprehensive support systems that address both individual and community 
                     mental health needs in culturally appropriate ways.
                   </p>
                 </div>
@@ -482,11 +481,11 @@ export default function WhatWeDo() {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-20">
                 <div className="order-2 lg:order-1">
                   <h3 className="text-2xl md:text-3xl font-light text-gray-900 mb-6">
-                    Environment Sustainability
+                    Environmental Sustainability
                   </h3>
                   <p className="text-lg text-gray-700 leading-relaxed font-light">
                     Environmental conservation projects, sustainable development initiatives, and climate 
-                    change awareness programs to protect our planet for future generations. We work with 
+                    change awareness programs to protect our planet for future generations. We plan to work with 
                     communities to implement eco-friendly practices and build resilience against climate 
                     challenges while preserving natural resources.
                   </p>
@@ -495,7 +494,7 @@ export default function WhatWeDo() {
                   <div className="text-center text-brand relative z-10">
                     <Leaf className="w-20 h-20 mx-auto mb-4 opacity-90" />
                     <h4 className="text-2xl font-light mb-2">Environmental Sustainability</h4>
-                    <p className="text-lg opacity-80">10+ Projects Completed</p>
+                    <p className="text-lg opacity-80">Green Future Vision</p>
                   </div>
                   <div className="absolute inset-0 opacity-5">
                     <svg className="w-full h-full" viewBox="0 0 100 100">
