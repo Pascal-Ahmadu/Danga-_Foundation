@@ -1,14 +1,27 @@
 import { NextResponse, NextRequest } from 'next/server';
-import prisma from '@/lib/prisma';
+
+let prisma: any = null;
+
+const getPrisma = async () => {
+  if (!prisma) {
+    const { default: prismaClient } = await import('@/lib/prisma');
+    prisma = prismaClient;
+  }
+  return prisma;
+};
 
 export async function GET() {
   try {
-    // Add a check for build time
-    if (process.env.NODE_ENV === 'production' && !process.env.DATABASE_URL) {
-      return NextResponse.json({ error: 'Database not available during build' }, { status: 503 });
+    if (!process.env.DATABASE_URL) {
+      return NextResponse.json(
+        { error: 'Database not configured' },
+        { status: 503 }
+      );
     }
 
-    const applications = await prisma.jobApplication.findMany({
+    const prismaClient = await getPrisma();
+    
+    const applications = await prismaClient.jobApplication.findMany({
       include: {
         job: {
           select: { title: true, department: true }
