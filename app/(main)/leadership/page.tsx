@@ -33,6 +33,28 @@ function getInitials(name: string): string {
     .toUpperCase();
 }
 
+// Helper function to get image path based on name/role
+function getImagePath(trustee: any): string | null {
+  // Check if trustee has image property
+  if (trustee.image) {
+    return trustee.image;
+  }
+  
+  // Special case for chairman
+  if (trustee.role.toLowerCase().includes('chairman') || 
+      trustee.name.toLowerCase().includes('joshua emmanuel')) {
+    return '/chairman.jpg';
+  }
+  
+  // You can add more specific image mappings here
+  // For example:
+  // if (trustee.name.toLowerCase().includes('specific name')) {
+  //   return '/specific-trustee-image.jpg';
+  // }
+  
+  return null;
+}
+
 // Breadcrumb items for this page
 const breadcrumbItems = [
   { name: 'Home', url: 'https://www.danga.org' },
@@ -113,44 +135,49 @@ export default function LeadershipPage() {
 
             {/* Trustees Grid */}
             <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-              {trustees.map((trustee, index) => (
-                <div
-                  key={trustee.name}
-                  className="p-6 bg-gray-50 shadow-sm text-center group hover:shadow-md transition-shadow duration-300"
-                >
-                  <div className="w-32 h-32 mx-auto relative mb-4">
-                    {/* Option A: Use placeholder image if image property exists */}
-                    {(trustee as any).image ? (
-                      <Image
-                        src={(trustee as any).image}
-                        alt={`${trustee.name} - ${trustee.role}`}
-                        fill
-                        className="object-cover rounded-full group-hover:scale-105 transition-transform duration-300"
-                        sizes="128px"
-                        priority={index < 6} // Prioritize first 6 images
-                      />
-                    ) : (
-                      /* Option B: Use initials as placeholder */
-                      <div className="w-32 h-32 bg-gradient-to-r from-brand to-brand-light rounded-full flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
-                        <span className="text-white text-2xl font-light">
-                          {getInitials(trustee.name)}
-                        </span>
-                      </div>
+              {trustees.map((trustee, index) => {
+                const imagePath = getImagePath(trustee);
+                
+                return (
+                  <div
+                    key={trustee.name}
+                    className="p-6 bg-gray-50 shadow-sm text-center group hover:shadow-md transition-shadow duration-300"
+                  >
+                    <div className="w-32 h-32 mx-auto relative mb-4">
+                      {imagePath ? (
+                        <div className="w-32 h-32 rounded-full overflow-hidden bg-gradient-to-br from-blue-500/10 to-blue-600/10 p-1">
+                          <Image
+                            src={imagePath}
+                            alt={`${trustee.name} - ${trustee.role}`}
+                            fill
+                            className="object-cover rounded-full group-hover:scale-105 transition-transform duration-300"
+                            sizes="128px"
+                            priority={index < 6} // Prioritize first 6 images
+                          />
+                        </div>
+                      ) : (
+                        /* Fallback to initials if no image */
+                        <div className="w-32 h-32 bg-gradient-to-r from-brand to-brand-light rounded-full flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
+                          <span className="text-white text-2xl font-light">
+                            {getInitials(trustee.name)}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                    <h3 className="text-xl font-light text-gray-900 mb-2">
+                      {trustee.name}
+                    </h3>
+                    <p className="text-gray-600 font-light mb-2">{trustee.role}</p>
+                    
+                    {/* Optional: Add bio if available in trustees data */}
+                    {(trustee as any).bio && (
+                      <p className="text-sm text-gray-500 font-light mt-3 line-clamp-3">
+                        {(trustee as any).bio}
+                      </p>
                     )}
                   </div>
-                  <h3 className="text-xl font-light text-gray-900 mb-2">
-                    {trustee.name}
-                  </h3>
-                  <p className="text-gray-600 font-light mb-2">{trustee.role}</p>
-                  
-                  {/* Optional: Add bio if available in trustees data */}
-                  {(trustee as any).bio && (
-                    <p className="text-sm text-gray-500 font-light mt-3 line-clamp-3">
-                      {(trustee as any).bio}
-                    </p>
-                  )}
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             {/* Call to Action */}

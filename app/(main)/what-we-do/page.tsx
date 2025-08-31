@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import Image from 'next/image';
 import Link from 'next/link';
 import { 
   Users, 
@@ -11,7 +10,10 @@ import {
   ArrowRight,
   Target,
   Heart,
-  ChevronRight
+  ChevronRight,
+  Sparkles,
+  Globe,
+  Shield
 } from 'lucide-react';
 import BreadcrumbSchema from '@/components/schemas/BreadcrumbSchema';
 import OrganizationSchema from '@/components/schemas/OrganizationSchema';
@@ -180,19 +182,31 @@ export default function WhatWeDo() {
           </div>
         </section>
 
-        {/* Community Image Section */}
+        {/* Community Visual Section */}
         <section className="section-padding bg-white">
           <div className="container">
             <div className="max-w-6xl mx-auto">
-              <div className="relative aspect-[16/9] mb-8 rounded-lg overflow-hidden">
-                <Image
-                  src="/images/community-work.jpg"
-                  alt="Danga Memorial Foundation team working with community members to foster strong unity and organize safe educational activities"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 80vw"
-                  priority
-                />
+              <div className="relative aspect-[16/9] mb-8 rounded-lg overflow-hidden bg-brand flex items-center justify-center">
+                <div className="text-center text-white relative z-10">
+                  <div className="flex items-center justify-center space-x-8 mb-6">
+                    <Users className="w-20 h-20 opacity-90" />
+                    <Heart className="w-16 h-16 opacity-80" />
+                    <Globe className="w-20 h-20 opacity-90" />
+                  </div>
+                  <h3 className="text-3xl md:text-4xl font-light mb-2">Community Unity & Impact</h3>
+                  <p className="text-xl opacity-90">Building stronger connections across Nigeria</p>
+                </div>
+                {/* Subtle geometric pattern overlay */}
+                <div className="absolute inset-0 opacity-5">
+                  <svg className="w-full h-full" viewBox="0 0 100 100">
+                    <defs>
+                      <pattern id="grid" width="8" height="8" patternUnits="userSpaceOnUse">
+                        <path d="M 8 0 L 0 0 0 8" fill="none" stroke="white" strokeWidth="0.5"/>
+                      </pattern>
+                    </defs>
+                    <rect width="100" height="100" fill="url(#grid)" />
+                  </svg>
+                </div>
               </div>
               <p className="text-sm text-gray-600 font-light mb-16">
                 Figure 1: DMF team working with families to foster strong unity. They 
@@ -245,14 +259,23 @@ export default function WhatWeDo() {
               </div>
               
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-16">
-                <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
-                  <Image
-                    src="/images/water-access.jpg"
-                    alt="Community members accessing clean water through Danga Memorial Foundation WASH programs"
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
-                  />
+                <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-brand flex items-center justify-center">
+                  <div className="text-center text-white relative z-10">
+                    <Droplets className="w-24 h-24 mx-auto mb-4 opacity-95" />
+                    <h4 className="text-2xl font-light mb-2">Clean Water Access</h4>
+                    <p className="text-lg opacity-90">15+ Communities Served</p>
+                  </div>
+                  {/* Simple pattern overlay */}
+                  <div className="absolute inset-0 opacity-5">
+                    <svg className="w-full h-full" viewBox="0 0 60 60">
+                      <defs>
+                        <pattern id="dots" width="12" height="12" patternUnits="userSpaceOnUse">
+                          <circle cx="6" cy="6" r="1.5" fill="white"/>
+                        </pattern>
+                      </defs>
+                      <rect width="60" height="60" fill="url(#dots)" />
+                    </svg>
+                  </div>
                 </div>
                 <div>
                   <h3 className="text-2xl md:text-3xl font-light text-gray-900 mb-6">
@@ -291,14 +314,22 @@ export default function WhatWeDo() {
 
               {/* Youth Empowerment */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-20">
-                <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
-                  <Image
-                    src="/images/youth-empowerment.jpg"
-                    alt="Youth participating in empowerment and leadership development programs"
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
-                  />
+                <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-brand flex items-center justify-center">
+                  <div className="text-center text-white relative z-10">
+                    <Users className="w-20 h-20 mx-auto mb-4 opacity-95" />
+                    <h4 className="text-2xl font-light mb-2">Youth Empowerment</h4>
+                    <p className="text-lg opacity-90">500+ Youth Trained</p>
+                  </div>
+                  <div className="absolute inset-0 opacity-5">
+                    <svg className="w-full h-full" viewBox="0 0 100 100">
+                      <defs>
+                        <pattern id="lines1" width="10" height="10" patternUnits="userSpaceOnUse">
+                          <path d="M 0 10 L 10 0" stroke="white" strokeWidth="0.5"/>
+                        </pattern>
+                      </defs>
+                      <rect width="100" height="100" fill="url(#lines1)" />
+                    </svg>
+                  </div>
                 </div>
                 <div>
                   <h3 className="text-2xl md:text-3xl font-light text-gray-900 mb-6">
@@ -329,27 +360,43 @@ export default function WhatWeDo() {
                     programs and preserve land in the face of climate change.
                   </p>
                 </div>
-                <div className="relative aspect-[4/3] rounded-lg overflow-hidden order-1 lg:order-2">
-                  <Image
-                    src="/images/education.jpg"
-                    alt="Students participating in education programs and scholarship initiatives"
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
-                  />
+                <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-white border-2 border-brand flex items-center justify-center order-1 lg:order-2">
+                  <div className="text-center text-brand relative z-10">
+                    <GraduationCap className="w-20 h-20 mx-auto mb-4 opacity-90" />
+                    <h4 className="text-2xl font-light mb-2">Education</h4>
+                    <p className="text-lg opacity-80">150+ Scholarships Given</p>
+                  </div>
+                  <div className="absolute inset-0 opacity-5">
+                    <svg className="w-full h-full" viewBox="0 0 100 100">
+                      <defs>
+                        <pattern id="circles1" width="15" height="15" patternUnits="userSpaceOnUse">
+                          <circle cx="7.5" cy="7.5" r="2" fill="none" stroke="currentColor" strokeWidth="0.5"/>
+                        </pattern>
+                      </defs>
+                      <rect width="100" height="100" fill="url(#circles1)" />
+                    </svg>
+                  </div>
                 </div>
               </div>
 
               {/* Health & Wellness */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-20">
-                <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
-                  <Image
-                    src="/images/health-wellness.jpg"
-                    alt="Health workers providing medical care and wellness programs"
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
-                  />
+                <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-brand flex items-center justify-center">
+                  <div className="text-center text-white relative z-10">
+                    <HeartHandshake className="w-20 h-20 mx-auto mb-4 opacity-95" />
+                    <h4 className="text-2xl font-light mb-2">Health & Wellness</h4>
+                    <p className="text-lg opacity-90">1,000+ People Reached</p>
+                  </div>
+                  <div className="absolute inset-0 opacity-5">
+                    <svg className="w-full h-full" viewBox="0 0 100 100">
+                      <defs>
+                        <pattern id="plus" width="20" height="20" patternUnits="userSpaceOnUse">
+                          <path d="M 10 5 L 10 15 M 5 10 L 15 10" stroke="white" strokeWidth="1"/>
+                        </pattern>
+                      </defs>
+                      <rect width="100" height="100" fill="url(#plus)" />
+                    </svg>
+                  </div>
                 </div>
                 <div>
                   <h3 className="text-2xl md:text-3xl font-light text-gray-900 mb-6">
@@ -380,27 +427,43 @@ export default function WhatWeDo() {
                     quality of life for entire communities.
                   </p>
                 </div>
-                <div className="relative aspect-[4/3] rounded-lg overflow-hidden order-1 lg:order-2">
-                  <Image
-                    src="/images/wash-programs.jpg"
-                    alt="Community members working together on water, sanitation and hygiene programs"
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
-                  />
+                <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-white border-2 border-brand flex items-center justify-center order-1 lg:order-2">
+                  <div className="text-center text-brand relative z-10">
+                    <Droplets className="w-20 h-20 mx-auto mb-4 opacity-90" />
+                    <h4 className="text-2xl font-light mb-2">WASH Programs</h4>
+                    <p className="text-lg opacity-80">15+ Communities Served</p>
+                  </div>
+                  <div className="absolute inset-0 opacity-5">
+                    <svg className="w-full h-full" viewBox="0 0 100 100">
+                      <defs>
+                        <pattern id="waves" width="20" height="10" patternUnits="userSpaceOnUse">
+                          <path d="M 0 5 Q 5 0 10 5 T 20 5" fill="none" stroke="currentColor" strokeWidth="0.5"/>
+                        </pattern>
+                      </defs>
+                      <rect width="100" height="100" fill="url(#waves)" />
+                    </svg>
+                  </div>
                 </div>
               </div>
 
               {/* Psycho-Social Support */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-20">
-                <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
-                  <Image
-                    src="/images/psycho-social.jpg"
-                    alt="Mental health support and counseling sessions for community members"
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
-                  />
+                <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-brand flex items-center justify-center">
+                  <div className="text-center text-white relative z-10">
+                    <Brain className="w-20 h-20 mx-auto mb-4 opacity-95" />
+                    <h4 className="text-2xl font-light mb-2">Psycho-Social Support</h4>
+                    <p className="text-lg opacity-90">200+ People Supported</p>
+                  </div>
+                  <div className="absolute inset-0 opacity-5">
+                    <svg className="w-full h-full" viewBox="0 0 100 100">
+                      <defs>
+                        <pattern id="hexagon" width="20" height="17.32" patternUnits="userSpaceOnUse">
+                          <path d="M 10 0 L 15 5 L 15 12.32 L 10 17.32 L 5 12.32 L 5 5 Z" fill="none" stroke="white" strokeWidth="0.5"/>
+                        </pattern>
+                      </defs>
+                      <rect width="100" height="100" fill="url(#hexagon)" />
+                    </svg>
+                  </div>
                 </div>
                 <div>
                   <h3 className="text-2xl md:text-3xl font-light text-gray-900 mb-6">
@@ -428,14 +491,22 @@ export default function WhatWeDo() {
                     challenges while preserving natural resources.
                   </p>
                 </div>
-                <div className="relative aspect-[4/3] rounded-lg overflow-hidden order-1 lg:order-2">
-                  <Image
-                    src="/images/environment.jpg"
-                    alt="Environmental sustainability and conservation projects in local communities"
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
-                  />
+                <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-white border-2 border-brand flex items-center justify-center order-1 lg:order-2">
+                  <div className="text-center text-brand relative z-10">
+                    <Leaf className="w-20 h-20 mx-auto mb-4 opacity-90" />
+                    <h4 className="text-2xl font-light mb-2">Environmental Sustainability</h4>
+                    <p className="text-lg opacity-80">10+ Projects Completed</p>
+                  </div>
+                  <div className="absolute inset-0 opacity-5">
+                    <svg className="w-full h-full" viewBox="0 0 100 100">
+                      <defs>
+                        <pattern id="leaves" width="25" height="25" patternUnits="userSpaceOnUse">
+                          <path d="M 12.5 5 Q 7.5 10 12.5 15 Q 17.5 10 12.5 5" fill="none" stroke="currentColor" strokeWidth="0.5"/>
+                        </pattern>
+                      </defs>
+                      <rect width="100" height="100" fill="url(#leaves)" />
+                    </svg>
+                  </div>
                 </div>
               </div>
             </div>
@@ -446,7 +517,7 @@ export default function WhatWeDo() {
         <section className="section-padding bg-white">
           <div className="container">
             <div className="max-w-4xl mx-auto text-center">
-              <div className="bg-white p-8 shadow-sm">
+              <div className="bg-white p-8 shadow-sm border border-gray-100">
                 <h3 className="text-2xl md:text-3xl font-light text-gray-900 mb-4">
                   Ready to Make a Difference?
                 </h3>

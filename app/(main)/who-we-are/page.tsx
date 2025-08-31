@@ -217,14 +217,25 @@ export default function WhoWeAre() {
         {/* Leadership */}
         <section className="section-padding bg-gray-50">
           <div className="container max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div className="relative">
-              <div className="aspect-[4/5] bg-gradient-to-br from-brand/10 to-brand/5 overflow-hidden">
-                <Image
-                  src="/images/chairman.jpg"
-                  alt="Chairman of Danga Memorial Foundation"
-                  fill
-                  className="object-cover"
-                />
+            <div className="relative flex flex-col items-center">
+              {/* Circular Image Container */}
+              <div className="relative w-64 h-64 mb-6">
+                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-500/20 to-blue-600/20 p-1">
+                  <div className="relative w-full h-full rounded-full overflow-hidden bg-white">
+                    <Image
+                      src="/chairman.jpg"
+                      alt="Joshua Emmanuel - Trustee Chairman"
+                      fill
+                      className="object-cover rounded-full"
+                    />
+                  </div>
+                </div>
+              </div>
+              
+              {/* Chairman Info */}
+              <div className="text-center">
+                <h3 className="text-2xl font-light text-gray-900 mb-2">Joshua Emmanuel</h3>
+                <p className="text-gray-600 font-light">Trustee Chairman</p>
               </div>
             </div>
             <div className="space-y-8">
@@ -264,24 +275,45 @@ export default function WhoWeAre() {
           </div>
         </section>
 
-        {/* Careers */}
+        {/* Our Team */}
         <section className="section-padding bg-white">
           <div className="container max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="relative order-2 lg:order-1">
-              <div className="aspect-[4/5] bg-gradient-to-br from-brand/10 to-brand/5 overflow-hidden">
-                <Image
-                  src="/volunteers.jpg"
-                  alt="Volunteers and team members"
-                  fill
-                  className="object-cover"
-                />
+              {/* Creative Team Visual - No Image */}
+              <div className="relative">
+                {/* Main circle with team representation */}
+                <div className="w-80 h-80 mx-auto rounded-full bg-gradient-to-br from-brand/10 to-brand-light/10 flex items-center justify-center relative overflow-hidden">
+                  {/* Floating elements representing team members */}
+                  <div className="absolute top-12 left-16 w-16 h-16 bg-brand/20 rounded-full flex items-center justify-center">
+                    <Users className="w-8 h-8 text-brand" />
+                  </div>
+                  <div className="absolute top-20 right-12 w-12 h-12 bg-brand-light/30 rounded-full flex items-center justify-center">
+                    <Heart className="w-6 h-6 text-brand" />
+                  </div>
+                  <div className="absolute bottom-16 left-20 w-14 h-14 bg-brand/15 rounded-full flex items-center justify-center">
+                    <Target className="w-7 h-7 text-brand" />
+                  </div>
+                  <div className="absolute bottom-20 right-16 w-18 h-18 bg-brand-light/25 rounded-full flex items-center justify-center">
+                    <Award className="w-9 h-9 text-brand" />
+                  </div>
+                  
+                  {/* Center element */}
+                  <div className="w-24 h-24 bg-gradient-to-br from-brand to-brand-light rounded-full flex items-center justify-center">
+                    <Users className="w-12 h-12 text-white" />
+                  </div>
+                </div>
+                
+                {/* Decorative dots */}
+                <div className="absolute -top-4 -right-4 w-6 h-6 bg-brand/60 rounded-full"></div>
+                <div className="absolute -bottom-6 -left-6 w-8 h-8 bg-brand-light/40 rounded-full"></div>
+                <div className="absolute top-1/3 -left-8 w-4 h-4 bg-brand/30 rounded-full"></div>
               </div>
             </div>
             <div className="space-y-8 order-1 lg:order-2">
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-gray-900">
-                Join our{" "}
+                Our{" "}
                 <span className="bg-gradient-to-r from-brand to-brand-light bg-clip-text text-transparent">
-                  mission
+                  team
                 </span>
               </h2>
               <p className="text-lg text-gray-700 leading-relaxed font-light">
@@ -290,11 +322,11 @@ export default function WhoWeAre() {
                 difference.
               </p>
               <Link
-                href="/careers"
+                href="/team"
                 className="group inline-flex items-center space-x-3 text-brand hover:text-brand-dark transition"
               >
                 <span className="text-lg font-light uppercase">
-                  EXPLORE CAREERS
+                  MEET OUR TEAM
                 </span>
                 <svg
                   className="w-6 h-6 transform group-hover:translate-x-1 transition-transform duration-200"
