@@ -145,11 +145,10 @@ const DonationFormComponent = () => {
                     <div className="bg-blue-50 border border-blue-200 p-4 mb-6">
                       <h4 className="font-medium text-blue-800 mb-2">After Your Transfer</h4>
                       <p className="text-sm text-blue-700 font-light">
-                        Please send proof of payment to <a href="mailto:donations@dangamemorial.org" className="underline">donations@dangamemorial.org</a> 
+                        Please send proof of payment to <a href="mailto:donations@dangafoundation.org" className="underline">donations@dangafoundation.org</a> 
                         {' '}with your full name and email address to receive your donation receipt.
                       </p>
                     </div>
-
                   </div>
 
                   {/* Contact Information */}
@@ -162,7 +161,7 @@ const DonationFormComponent = () => {
                       </div>
                       <div className="flex items-center space-x-3">
                         <Mail className="h-4 w-4 text-brand" />
-                        <a href="mailto:donations@dangamemorial.org" className="text-brand hover:underline font-light">donations@dangamemorial.org</a>
+                        <a href="mailto:donations@dangafoundation.org" className="text-brand hover:underline font-light">donations@dangafoundation.org</a>
                       </div>
                       <div className="flex items-start space-x-3">
                         <MapPin className="h-4 w-4 text-brand mt-1" />
