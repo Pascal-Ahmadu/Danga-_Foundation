@@ -115,10 +115,10 @@ const DonationFormComponent = () => {
                         <div className="flex justify-between items-center">
                           <div>
                             <p className="text-sm text-gray-600 font-light">Account Number</p>
-                            <p className="font-medium text-gray-900 text-lg">••••••7890</p>
+                            <p className="font-medium text-gray-900 text-lg">1013926587</p>
                           </div>
                           <button
-                            onClick={() => handleCopyAccount('••••••7890')}
+                            onClick={() => handleCopyAccount('1013926587')}
                             className="p-2 text-brand hover:bg-brand/10 transition-colors"
                             title="Copy account number"
                           >
