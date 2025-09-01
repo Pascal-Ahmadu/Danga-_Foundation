@@ -101,10 +101,10 @@ const DonationFormComponent = () => {
                         <div className="flex justify-between items-center">
                           <div>
                             <p className="text-sm text-gray-600 font-light">Bank</p>
-                            <p className="font-medium text-gray-900">First Bank of Nigeria</p>
+                            <p className="font-medium text-gray-900">Keystone bank</p>
                           </div>
                           <button
-                            onClick={() => handleCopyAccount('First Bank of Nigeria')}
+                            onClick={() => handleCopyAccount('Keystone bank')}
                             className="p-2 text-brand hover:bg-brand/10 transition-colors"
                             title="Copy bank name"
                           >
