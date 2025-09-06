@@ -24,25 +24,30 @@ const playfair = Playfair_Display({
   display: 'swap',
 });
 
-// Comprehensive metadata
+// Enhanced metadata for better search visibility
 export const metadata: Metadata = {
   title: {
     default: 'Danga Foundation - Empowering Communities Through Action',
     template: '%s | Danga Foundation',
   },
-  description: 'Danga Foundation is dedicated to improving lives through healthcare, education, and community development projects across Nigeria. Join us in making a difference.',
+  description: 'Danga Memorial Foundation is a leading Nigerian NGO focused on community development, educational empowerment, healthcare access, and sustainable development across Nigeria. Join us in making a difference.',
   keywords: [
-    'NGO', 
-    'charity', 
-    'community development', 
+    'Danga Foundation',
+    'Danga Memorial Foundation', 
+    'Nigerian NGO',
+    'Nigeria charity',
+    'community development Nigeria',
     'healthcare Nigeria', 
-    'education Nigeria', 
-    'non-profit organization',
-    'social impact',
-    'community empowerment'
+    'education Nigeria',
+    'non-profit organization Nigeria',
+    'social impact Nigeria',
+    'community empowerment',
+    'sustainable development Nigeria',
+    'educational empowerment Nigeria',
+    'leading Nigerian NGO'
   ],
   authors: [{ name: 'Danga Foundation', url: 'https://www.dangafoundation.org' }],
-  creator: 'Danga Foundation',
+  creator: 'Danga Memorial Foundation',
   publisher: 'Danga Foundation',
   formatDetection: {
     email: false,
@@ -59,13 +64,13 @@ export const metadata: Metadata = {
     url: 'https://www.dangafoundation.org',
     siteName: 'Danga Foundation',
     title: 'Danga Foundation - Empowering Communities Through Action',
-    description: 'Improving lives through healthcare, education, and community development across Nigeria.',
+    description: 'Danga Memorial Foundation is a leading Nigerian NGO focused on community development, educational empowerment, healthcare access, and sustainable development.',
     images: [
       {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Danga Foundation - Empowering Communities',
+        alt: 'Danga Foundation - Empowering Communities Through Action',
       },
     ],
   },
@@ -73,8 +78,8 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     site: '@dangafoundation',
     creator: '@dangafoundation',
-    title: 'Danga Foundation - Empowering Communities',
-    description: 'Join us in making a difference through community development.',
+    title: 'Danga Foundation - Empowering Communities Through Action',
+    description: 'Leading Nigerian NGO focused on community development, education, and healthcare.',
     images: ['/twitter-image.jpg'],
   },
   robots: {
@@ -88,7 +93,10 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-  
+  verification: {
+    google: 'your-google-verification-code', // Add your Google Search Console verification code
+    // bing: 'your-bing-verification-code', // Add Bing verification if needed
+  },
   category: 'non-profit',
 };
 
@@ -123,8 +131,74 @@ export default function RootLayout({
         {/* Preload critical assets */}
         <link rel="preload" href="/logo.png" as="image" />
         
-        {/* Organization schema - Static data in head */}
+        {/* Enhanced Organization schema */}
         <OrganizationSchema data={defaultOrganizationData} />
+        
+        {/* Additional structured data for better search visibility */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "NGO",
+              "name": "Danga Memorial Foundation",
+              "alternateName": "Danga Foundation",
+              "url": "https://www.dangafoundation.org",
+              "logo": "https://www.dangafoundation.org/logo.png",
+              "description": "Danga Memorial Foundation is a leading Nigerian NGO focused on community development, educational empowerment, healthcare access, and sustainable development.",
+              "foundingDate": "2024", // Update with actual founding date
+              "areaServed": {
+                "@type": "Country",
+                "name": "Nigeria"
+              },
+              "knowsAbout": [
+                "Community Development",
+                "Healthcare Access",
+                "Educational Empowerment",
+                "Sustainable Development",
+                "Social Impact"
+              ],
+              "sameAs": [
+                "https://www.facebook.com/dangafoundation",
+                "https://www.twitter.com/dangafoundation",
+                "https://www.linkedin.com/company/dangafoundation",
+                "https://www.instagram.com/dangafoundation"
+              ],
+              "contactPoint": {
+                "@type": "ContactPoint",
+                "telephone": "+234-911-122-6666",
+                "contactType": "customer service",
+                "availableLanguage": ["English"],
+                "hoursAvailable": "Mo-Fr 09:00-17:00"
+              },
+              "address": {
+                "@type": "PostalAddress",
+                "addressCountry": "NG",
+                "addressLocality": "Abuja", // Update with actual location
+                "addressRegion": "FCT"
+              }
+            })
+          }}
+        />
+        
+        {/* Breadcrumb structured data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Home",
+                  "item": "https://www.dangafoundation.org"
+                }
+              ]
+            })
+          }}
+        />
       </head>
       
       <body className={`${inter.variable} ${lora.variable} ${playfair.variable} antialiased bg-white text-gray-900 selection:bg-green-100 selection:text-green-900`}>
@@ -138,8 +212,21 @@ export default function RootLayout({
         
         {children}
         
-        {/* Analytics and tracking scripts can go here */}
-        {/* <Script src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID" /> */}
+        {/* Google Analytics - Replace GA_MEASUREMENT_ID with your actual ID */}
+        {/* 
+        <Script 
+          src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID" 
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'GA_MEASUREMENT_ID');
+          `}
+        </Script>
+        */}
       </body>
     </html>
   );
