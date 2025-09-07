@@ -60,7 +60,7 @@ const useScrollAnimation = () => {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setVisibleElements(prev => new Set(prev).add(entry.target.id));
+            setVisibleElements((prev) => new Set(prev).add(entry.target.id));
           }
         });
       },
@@ -68,8 +68,8 @@ const useScrollAnimation = () => {
     );
 
     // Observe all animated elements
-    const elements = document.querySelectorAll('[data-animate]');
-    elements.forEach(el => observer.observe(el));
+    const elements = document.querySelectorAll("[data-animate]");
+    elements.forEach((el) => observer.observe(el));
 
     return () => observer.disconnect();
   }, []);
@@ -79,37 +79,38 @@ const useScrollAnimation = () => {
 
 // Organization data and breadcrumb items remain the same
 const organizationData = {
-  name: 'Danga Memorial Foundation',
-  alternateName: 'Danga NGO',
-  url: 'https://www.danga.org',
-  logo: 'https://www.danga.org/logo.png',
-  description: 'The Danga Memorial Foundation works across Nigeria to help communities affected by poverty and lack of opportunities to survive, recover, and rebuild their lives through education, health, and sustainable development programs.',
+  name: "Danga Memorial Foundation",
+  alternateName: "Danga NGO",
+  url: "https://www.danga.org",
+  logo: "https://www.danga.org/logo.png",
+  description:
+    "The Danga Memorial Foundation works across Nigeria to help communities affected by poverty and lack of opportunities to survive, recover, and rebuild their lives through education, health, and sustainable development programs.",
   address: {
-    streetAddress: '123 Community Drive',
-    addressLocality: 'Lagos',
-    addressRegion: 'Lagos State',
-    postalCode: '100001',
-    addressCountry: 'Nigeria',
+    streetAddress: "123 Community Drive",
+    addressLocality: "Lagos",
+    addressRegion: "Lagos State",
+    postalCode: "100001",
+    addressCountry: "Nigeria",
   },
   contactPoint: {
-    telephone: '+234-XXX-XXX-XXXX',
-    email: 'info@danga.org',
-    contactType: 'customer service',
-    availableLanguage: ['English'],
+    telephone: "+234-XXX-XXX-XXXX",
+    email: "info@danga.org",
+    contactType: "customer service",
+    availableLanguage: ["English"],
   },
   sameAs: [
-    'https://www.facebook.com/dangamemorialfoundation',
-    'https://www.twitter.com/dangamemorial',
-    'https://www.linkedin.com/company/danga-memorial-foundation',
-    'https://www.instagram.com/dangamemorial',
+    "https://www.facebook.com/dangamemorialfoundation",
+    "https://www.twitter.com/dangamemorial",
+    "https://www.linkedin.com/company/danga-memorial-foundation",
+    "https://www.instagram.com/dangamemorial",
   ],
-  foundingDate: '2024',
-  nonprofitStatus: 'Nonprofit501c3',
+  foundingDate: "2024",
+  nonprofitStatus: "Nonprofit501c3",
 };
 
 const breadcrumbItems = [
-  { name: 'Home', url: 'https://www.danga.org' },
-  { name: 'Who We Are', url: 'https://www.danga.org/who-we-are' },
+  { name: "Home", url: "https://www.danga.org" },
+  { name: "Who We Are", url: "https://www.danga.org/who-we-are" },
 ];
 
 export default function WhoWeAre() {
@@ -120,14 +121,12 @@ export default function WhoWeAre() {
       {/* SEO Schemas */}
       <BreadcrumbSchema items={breadcrumbItems} />
       <OrganizationSchema data={organizationData} />
-      
+
       <div className="pt-20">
-        {/* Hero Section - Animated */}
+        {/* Hero Section */}
         <section className="section-padding bg-white overflow-hidden">
           <div className="container max-w-6xl mx-auto">
-            <div 
-              className="mb-4 transform transition-all duration-1000 ease-out opacity-0 translate-y-8 animate-[slideInUp_0.8s_ease-out_0.2s_forwards]"
-            >
+            <div className="mb-4 transform transition-all duration-1000 ease-out opacity-0 translate-y-8 animate-[slideInUp_0.8s_ease-out_0.2s_forwards]">
               <p className="text-gray-600 text-sm tracking-wide uppercase font-light">
                 Danga Memorial Foundation
               </p>
@@ -138,204 +137,79 @@ export default function WhoWeAre() {
             <p className="max-w-2xl text-xl md:text-2xl text-gray-700 leading-relaxed font-light transform transition-all duration-1000 ease-out opacity-0 translate-y-16 animate-[slideInUp_0.8s_ease-out_0.6s_forwards]">
               The Danga Memorial Foundation works across Nigeria to help
               communities affected by poverty and lack of opportunities to
-              survive, recover, and rebuild their lives through education, health,
-              and sustainable development programs.
+              survive, recover, and rebuild their lives through education,
+              health, and sustainable development programs.
             </p>
           </div>
         </section>
 
-        {/* Mission, Vision & Values - Staggered Animation */}
-        <section className="section-padding bg-white">
-          <div className="container max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-16">
-            {['mission', 'vision', 'values'].map((section, index) => (
-              <div
-                key={section}
-                id={`${section}-section`}
-                data-animate="true"
-                className={`transform transition-all duration-800 ease-out ${
-                  visibleElements.has(`${section}-section`) 
-                    ? 'opacity-100 translate-y-0' 
-                    : 'opacity-0 translate-y-12'
-                }`}
-                style={{ transitionDelay: `${index * 200}ms` }}
-              >
-                {section === 'mission' && (
-                  <>
-                    <h2 className="text-2xl font-light text-gray-900 mb-6">
-                      Our Mission
-                    </h2>
-                    <p className="text-gray-700 leading-relaxed font-light">
-                      Our foundation is built on the belief that sustainable change
-                      begins with empowering communities through education, health
-                      initiatives, and meaningful opportunities that create lasting
-                      positive change and break cycles of poverty.
-                    </p>
-                  </>
-                )}
-                {section === 'vision' && (
-                  <>
-                    <h2 className="text-2xl font-light text-gray-900 mb-6">
-                      Our Vision
-                    </h2>
-                    <p className="text-gray-700 leading-relaxed font-light">
-                      A world where every individual has access to quality education,
-                      healthcare, and opportunities to thrive, regardless of their
-                      socioeconomic background or geographical location.
-                    </p>
-                  </>
-                )}
-                {section === 'values' && (
-                  <>
-                    <h2 className="text-2xl font-light text-gray-900 mb-6">
-                      Our Values
-                    </h2>
-                    <div className="space-y-6">
-                      {values.map((value, valueIndex) => (
-                        <div 
-                          key={value.title}
-                          className="transform transition-all duration-500 ease-out opacity-0 translate-x-8 animate-[slideInLeft_0.6s_ease-out_forwards]"
-                          style={{ animationDelay: `${(valueIndex + 3) * 200}ms` }}
-                        >
-                          <h3 className="text-lg font-light text-gray-900 mb-2 flex items-center gap-2">
-                            <value.icon className="w-5 h-5 text-brand" />
-                            {value.title}
-                          </h3>
-                          <p className="text-gray-700 text-sm leading-relaxed font-light">
-                            {value.description}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  </>
-                )}
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Timeline - Animated */}
-        <section className="section-padding bg-white">
-          <div 
-            className="container text-center mb-16"
-            id="timeline-header"
-            data-animate="true"
-          >
-            <h2 className={`text-3xl md:text-4xl lg:text-5xl font-light text-gray-900 mb-4 transform transition-all duration-800 ease-out ${
-              visibleElements.has('timeline-header') 
-                ? 'opacity-100 translate-y-0' 
-                : 'opacity-0 translate-y-12'
-            }`}>
-              Our{" "}
-              <span className="bg-gradient-to-r from-brand to-brand-light bg-clip-text text-transparent">
-                Journey
-              </span>
-            </h2>
-            <p className={`text-xl text-gray-600 max-w-3xl mx-auto font-light transform transition-all duration-800 ease-out ${
-              visibleElements.has('timeline-header') 
-                ? 'opacity-100 translate-y-0' 
-                : 'opacity-0 translate-y-12'
-            }`} style={{ transitionDelay: '200ms' }}>
-              Our foundation is built on the belief that sustainable change begins
-              with empowering communities through education, health initiatives,
-              and meaningful opportunities.
-            </p>
-          </div>
-
-          <div className="max-w-4xl mx-auto relative">
-            <div className="absolute left-4 md:left-1/2 md:-translate-x-1/2 h-full w-0.5 bg-brand/20"></div>
-            {milestones.map((m, i) => (
-              <div
-                key={m.year}
-                id={`milestone-${i}`}
-                data-animate="true"
-                className={`relative flex items-center mb-12 last:mb-0 transform transition-all duration-800 ease-out ${
-                  visibleElements.has(`milestone-${i}`) 
-                    ? 'opacity-100 translate-y-0' 
-                    : 'opacity-0 translate-y-12'
-                }`}
-                style={{ transitionDelay: `${i * 300}ms` }}
-              >
-                <div className={`absolute left-0 md:left-1/2 md:-translate-x-1/2 w-8 h-8 bg-brand border-4 border-white z-10 rounded-full transform transition-all duration-500 ${
-                  visibleElements.has(`milestone-${i}`) 
-                    ? 'scale-100' 
-                    : 'scale-0'
-                }`} style={{ transitionDelay: `${i * 300 + 200}ms` }}></div>
-                <div
-                  className={`ml-12 md:ml-0 md:w-1/2 ${
-                    i % 2 === 0
-                      ? "md:pr-12 md:text-right"
-                      : "md:pl-12 md:ml-auto"
-                  }`}
-                >
-                  <div className="bg-white p-6 border-l-4 border-brand shadow-lg hover:shadow-xl transition-shadow duration-300">
-                    <div className="text-brand font-light text-xl mb-2">
-                      {m.year}
-                    </div>
-                    <h3 className="text-xl font-light text-gray-900 mb-2">
-                      {m.title}
-                    </h3>
-                    <p className="text-gray-600 font-light">{m.description}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Leadership - Animated */}
+        {/* Leadership - Updated with bigger spacing + image */}
         <section className="section-padding bg-gray-50">
           <div className="container max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div 
-              className="relative flex flex-col items-center"
+            <div
+              className="relative flex flex-col items-center mt-20"
               id="leadership-image"
               data-animate="true"
             >
-              <div className={`relative w-64 h-64 mb-6 transform transition-all duration-1000 ease-out ${
-                visibleElements.has('leadership-image') 
-                  ? 'opacity-100 scale-100 rotate-0' 
-                  : 'opacity-0 scale-75 rotate-12'
-              }`}>
+              <div
+                className={`relative w-80 h-80 mb-6 transform transition-all duration-1000 ease-out ${
+                  visibleElements.has("leadership-image")
+                    ? "opacity-100 scale-100 rotate-0"
+                    : "opacity-0 scale-75 rotate-12"
+                }`}
+              >
                 <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-500/20 to-blue-600/20 p-1 animate-pulse">
                   <div className="relative w-full h-full rounded-full overflow-hidden bg-white">
-                    <Image
-                      src="/chairman.jpg"
-                      alt="Joshua Emmanuel - Trustee Chairman"
-                      fill
-                      className="object-cover rounded-full hover:scale-105 transition-transform duration-500"
-                    />
+                   <Image
+  src="/chairman2.jpg"
+  alt="Joshua Emmanuel - Trustee Chairman"
+  fill
+  className="object-cover object-top rounded-full hover:scale-105 transition-transform duration-500"
+/>
+
                   </div>
                 </div>
               </div>
-              
-              <div className={`text-center transform transition-all duration-800 ease-out ${
-                visibleElements.has('leadership-image') 
-                  ? 'opacity-100 translate-y-0' 
-                  : 'opacity-0 translate-y-8'
-              }`} style={{ transitionDelay: '300ms' }}>
-                <h3 className="text-2xl font-light text-gray-900 mb-2">Joshua Emmanuel</h3>
+
+              <div
+                className={`text-center transform transition-all duration-800 ease-out ${
+                  visibleElements.has("leadership-image")
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-8"
+                }`}
+                style={{ transitionDelay: "300ms" }}
+              >
+                <h3 className="text-2xl font-light text-gray-900 mb-2">
+                  Joshua Emmanuel
+                </h3>
                 <p className="text-gray-600 font-light">Trustee Chairman</p>
               </div>
             </div>
-            <div 
+            <div
               className="space-y-8"
               id="leadership-content"
               data-animate="true"
             >
-              <h2 className={`text-3xl md:text-4xl lg:text-5xl font-light text-gray-900 transform transition-all duration-800 ease-out ${
-                visibleElements.has('leadership-content') 
-                  ? 'opacity-100 translate-x-0' 
-                  : 'opacity-0 -translate-x-12'
-              }`}>
+              <h2
+                className={`text-3xl md:text-4xl lg:text-5xl font-light text-gray-900 transform transition-all duration-800 ease-out ${
+                  visibleElements.has("leadership-content")
+                    ? "opacity-100 translate-x-0"
+                    : "opacity-0 -translate-x-12"
+                }`}
+              >
                 Our{" "}
                 <span className="bg-gradient-to-r from-brand to-brand-light bg-clip-text text-transparent">
                   leadership
                 </span>
               </h2>
-              <p className={`text-lg text-gray-700 leading-relaxed font-light transform transition-all duration-800 ease-out ${
-                visibleElements.has('leadership-content') 
-                  ? 'opacity-100 translate-x-0' 
-                  : 'opacity-0 -translate-x-12'
-              }`} style={{ transitionDelay: '200ms' }}>
+              <p
+                className={`text-lg text-gray-700 leading-relaxed font-light transform transition-all duration-800 ease-out ${
+                  visibleElements.has("leadership-content")
+                    ? "opacity-100 translate-x-0"
+                    : "opacity-0 -translate-x-12"
+                }`}
+                style={{ transitionDelay: "200ms" }}
+              >
                 Our Chairman leads the Foundation with a Board of Directors and
                 trustees who bring a wealth of experience and expertise to our
                 mission.
@@ -343,139 +217,14 @@ export default function WhoWeAre() {
               <Link
                 href="/leadership"
                 className={`group inline-flex items-center space-x-3 text-brand hover:text-brand-dark transition-all duration-300 transform ${
-                  visibleElements.has('leadership-content') 
-                    ? 'opacity-100 translate-x-0' 
-                    : 'opacity-0 -translate-x-12'
+                  visibleElements.has("leadership-content")
+                    ? "opacity-100 translate-x-0"
+                    : "opacity-0 -translate-x-12"
                 }`}
-                style={{ transitionDelay: '400ms' }}
+                style={{ transitionDelay: "400ms" }}
               >
                 <span className="text-lg font-light uppercase">
                   MEET OUR LEADERSHIP
-                </span>
-                <svg
-                  className="w-6 h-6 transform group-hover:translate-x-2 transition-transform duration-300"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M17 8l4 4m0 0l-4 4m4-4H3"
-                  />
-                </svg>
-              </Link>
-            </div>
-          </div>
-        </section>
-
-        {/* Our Team - Animated */}
-        <section className="section-padding bg-white">
-          <div className="container max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div 
-              className="relative order-2 lg:order-1"
-              id="team-visual"
-              data-animate="true"
-            >
-              <div className={`relative transform transition-all duration-1000 ease-out ${
-                visibleElements.has('team-visual') 
-                  ? 'opacity-100 scale-100' 
-                  : 'opacity-0 scale-90'
-              }`}>
-                <div className="w-80 h-80 mx-auto rounded-full bg-gradient-to-br from-brand/10 to-brand-light/10 flex items-center justify-center relative overflow-hidden">
-                  {/* Floating animated elements */}
-                  <div className={`absolute top-12 left-16 w-16 h-16 bg-brand/20 rounded-full flex items-center justify-center transition-all duration-1000 ease-out ${
-                    visibleElements.has('team-visual') 
-                      ? 'opacity-100 translate-y-0' 
-                      : 'opacity-0 -translate-y-8'
-                  }`} style={{ transitionDelay: '200ms' }}>
-                    <Users className="w-8 h-8 text-brand animate-bounce" style={{ animationDelay: '0s' }} />
-                  </div>
-                  <div className={`absolute top-20 right-12 w-12 h-12 bg-brand-light/30 rounded-full flex items-center justify-center transition-all duration-1000 ease-out ${
-                    visibleElements.has('team-visual') 
-                      ? 'opacity-100 translate-y-0' 
-                      : 'opacity-0 -translate-y-8'
-                  }`} style={{ transitionDelay: '400ms' }}>
-                    <Heart className="w-6 h-6 text-brand animate-bounce" style={{ animationDelay: '0.5s' }} />
-                  </div>
-                  <div className={`absolute bottom-16 left-20 w-14 h-14 bg-brand/15 rounded-full flex items-center justify-center transition-all duration-1000 ease-out ${
-                    visibleElements.has('team-visual') 
-                      ? 'opacity-100 translate-y-0' 
-                      : 'opacity-0 translate-y-8'
-                  }`} style={{ transitionDelay: '600ms' }}>
-                    <Target className="w-7 h-7 text-brand animate-bounce" style={{ animationDelay: '1s' }} />
-                  </div>
-                  <div className={`absolute bottom-20 right-16 w-18 h-18 bg-brand-light/25 rounded-full flex items-center justify-center transition-all duration-1000 ease-out ${
-                    visibleElements.has('team-visual') 
-                      ? 'opacity-100 translate-y-0' 
-                      : 'opacity-0 translate-y-8'
-                  }`} style={{ transitionDelay: '800ms' }}>
-                    <Award className="w-9 h-9 text-brand animate-bounce" style={{ animationDelay: '1.5s' }} />
-                  </div>
-                  
-                  <div className={`w-24 h-24 bg-gradient-to-br from-brand to-brand-light rounded-full flex items-center justify-center transition-all duration-1000 ease-out ${
-                    visibleElements.has('team-visual') 
-                      ? 'opacity-100 scale-100' 
-                      : 'opacity-0 scale-50'
-                  }`} style={{ transitionDelay: '1000ms' }}>
-                    <Users className="w-12 h-12 text-white animate-pulse" />
-                  </div>
-                </div>
-                
-                {/* Animated decorative dots */}
-                <div className={`absolute -top-4 -right-4 w-6 h-6 bg-brand/60 rounded-full transition-all duration-800 ease-out ${
-                  visibleElements.has('team-visual') 
-                    ? 'opacity-100 scale-100' 
-                    : 'opacity-0 scale-0'
-                }`} style={{ transitionDelay: '300ms' }}></div>
-                <div className={`absolute -bottom-6 -left-6 w-8 h-8 bg-brand-light/40 rounded-full transition-all duration-800 ease-out ${
-                  visibleElements.has('team-visual') 
-                    ? 'opacity-100 scale-100' 
-                    : 'opacity-0 scale-0'
-                }`} style={{ transitionDelay: '500ms' }}></div>
-                <div className={`absolute top-1/3 -left-8 w-4 h-4 bg-brand/30 rounded-full transition-all duration-800 ease-out ${
-                  visibleElements.has('team-visual') 
-                    ? 'opacity-100 scale-100' 
-                    : 'opacity-0 scale-0'
-                }`} style={{ transitionDelay: '700ms' }}></div>
-              </div>
-            </div>
-            <div 
-              className="space-y-8 order-1 lg:order-2"
-              id="team-content"
-              data-animate="true"
-            >
-              <h2 className={`text-3xl md:text-4xl lg:text-5xl font-light text-gray-900 transform transition-all duration-800 ease-out ${
-                visibleElements.has('team-content') 
-                  ? 'opacity-100 translate-x-0' 
-                  : 'opacity-0 translate-x-12'
-              }`}>
-                Our{" "}
-                <span className="bg-gradient-to-r from-brand to-brand-light bg-clip-text text-transparent">
-                  team
-                </span>
-              </h2>
-              <p className={`text-lg text-gray-700 leading-relaxed font-light transform transition-all duration-800 ease-out ${
-                visibleElements.has('team-content') 
-                  ? 'opacity-100 translate-x-0' 
-                  : 'opacity-0 translate-x-12'
-              }`} style={{ transitionDelay: '200ms' }}>
-                We believe that sustainable change happens when communities come
-                together with passionate individuals committed to making a
-                difference.
-              </p>
-              <Link
-                href="/team"
-                className={`group inline-flex items-center space-x-3 text-brand hover:text-brand-dark transition-all duration-300 transform ${
-                  visibleElements.has('team-content') 
-                    ? 'opacity-100 translate-x-0' 
-                    : 'opacity-0 translate-x-12'
-                }`}
-                style={{ transitionDelay: '400ms' }}
-              >
-                <span className="text-lg font-light uppercase">
-                  MEET OUR TEAM
                 </span>
                 <svg
                   className="w-6 h-6 transform group-hover:translate-x-2 transition-transform duration-300"
@@ -507,7 +256,7 @@ export default function WhoWeAre() {
             transform: translateY(0);
           }
         }
-        
+
         @keyframes slideInLeft {
           from {
             opacity: 0;

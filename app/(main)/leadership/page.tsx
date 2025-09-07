@@ -43,7 +43,7 @@ function getImagePath(trustee: any): string | null {
   // Special case for chairman
   if (trustee.role.toLowerCase().includes('chairman') || 
       trustee.name.toLowerCase().includes('joshua emmanuel')) {
-    return '/chairman.jpg';
+    return '/chairman2.jpg';
   }
   
   // You can add more specific image mappings here
