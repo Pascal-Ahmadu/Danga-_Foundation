@@ -168,10 +168,12 @@ export default function Programs({
                   style={{
                     transitionDelay: `${200 + index * 100}ms`
                   }}
-                  ref={cardRef}
                 >
-                  <div className="bg-white p-8 shadow-sm hover:shadow-md h-full border border-gray-100 
-                                  group-hover:border-brand/20 transition-all duration-300 transform hover:scale-105">
+                  <div 
+                    ref={cardRef}
+                    className="bg-white p-8 shadow-sm hover:shadow-md h-full border border-gray-100 
+                                group-hover:border-brand/20 transition-all duration-300 transform hover:scale-105"
+                  >
                     <div className="flex items-center justify-center mb-6">
                       <Icon className="h-12 w-12 text-brand font-light transform transition-all duration-500 group-hover:scale-110 group-hover:rotate-3" strokeWidth="1" />
                     </div>
