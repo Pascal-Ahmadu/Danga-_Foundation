@@ -1,10 +1,15 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Heart, CreditCard, Copy, MapPin, Phone, Mail } from 'lucide-react';
-import Image from 'next/image';
 
 const DonationFormComponent = () => {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const handleCopyAccount = (text: string) => {
     navigator.clipboard.writeText(text);
     // You could add a toast notification here
@@ -13,7 +18,11 @@ const DonationFormComponent = () => {
   return (
     <div className="pt-20">
       {/* Hero Section */}
-      <section className="section-padding bg-white">
+      <section
+        className={`section-padding bg-white transition-all duration-1000 ease-out transform ${
+          mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+        }`}
+      >
         <div className="container">
           <div className="max-w-6xl mx-auto">
             <div className="mb-4">
@@ -23,11 +32,13 @@ const DonationFormComponent = () => {
             </div>
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-gray-900 mb-8">
               Make a{' '}
-              <span className="bg-gradient-to-r from-brand to-brand-dark bg-clip-text text-transparent">donation</span>
+              <span className="bg-gradient-to-r from-brand to-brand-dark bg-clip-text text-transparent">
+                donation
+              </span>
             </h1>
             <div className="max-w-2xl">
               <p className="text-lg md:text-xl text-gray-700 leading-relaxed font-light">
-                Your generous contribution helps us empower communities across Nigeria 
+                Your generous contribution helps us empower communities across Nigeria
                 through education, healthcare, and sustainable development programs.
               </p>
             </div>
@@ -36,35 +47,44 @@ const DonationFormComponent = () => {
       </section>
 
       {/* Main Donation Section */}
-      <section className="section-padding bg-gray-50">
+      <section
+        className={`section-padding bg-gray-50 transition-all duration-1000 ease-out transform delay-200 ${
+          mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+        }`}
+      >
         <div className="container">
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-              
               {/* Left Column - Impact Story */}
-              <div className="space-y-8">
+              <div
+                className={`space-y-8 transition-all duration-1000 ease-out transform delay-300 ${
+                  mounted ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-6'
+                }`}
+              >
                 <div className="bg-white shadow-lg overflow-hidden">
                   <div className="p-8">
                     <h2 className="text-3xl font-light text-gray-900 mb-6">
                       Transform lives with your{' '}
-                      <span className="bg-gradient-to-r from-brand to-brand-dark bg-clip-text text-transparent">generosity</span>
+                      <span className="bg-gradient-to-r from-brand to-brand-dark bg-clip-text text-transparent">
+                        generosity
+                      </span>
                     </h2>
                     <div className="space-y-6 text-gray-700 font-light leading-relaxed">
                       <p>
-                        Across Nigeria, millions of young people face barriers to education, healthcare, 
-                        and economic opportunities. Your donation directly supports our mission to break 
+                        Across Nigeria, millions of young people face barriers to education, healthcare,
+                        and economic opportunities. Your donation directly supports our mission to break
                         these cycles of poverty and create lasting change.
                       </p>
                       <p>
-                        <strong className="font-medium">Your gift today will go where it is needed most,</strong> 
-                        helping us provide scholarships to brilliant students, deliver essential healthcare 
-                        to underserved communities, and create sustainable livelihood programs that 
+                        <strong className="font-medium">Your gift today will go where it is needed most,</strong>{' '}
+                        helping us provide scholarships to brilliant students, deliver essential healthcare
+                        to underserved communities, and create sustainable livelihood programs that
                         empower families across Nigeria.
                       </p>
                       <p>
-                        <strong className="font-medium">Our teams are ready to make a difference</strong> 
-                        in communities nationwide, working alongside local leaders to build 
-                        stronger, more resilient futures for all Nigerians.
+                        <strong className="font-medium">Our teams are ready to make a difference</strong> in
+                        communities nationwide, working alongside local leaders to build stronger, more
+                        resilient futures for all Nigerians.
                       </p>
                     </div>
                   </div>
@@ -72,16 +92,19 @@ const DonationFormComponent = () => {
               </div>
 
               {/* Right Column - Bank Transfer Details */}
-              <div className="bg-white shadow-lg">
+              <div
+                className={`bg-white shadow-lg transition-all duration-1000 ease-out transform delay-500 ${
+                  mounted ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-6'
+                }`}
+              >
                 <div className="p-8">
-                  
                   {/* Bank Transfer Details */}
                   <div className="mb-8">
                     <div className="flex items-center mb-6">
                       <CreditCard className="h-6 w-6 text-brand mr-3" />
                       <h3 className="text-2xl font-light text-gray-900">Bank Transfer Details</h3>
                     </div>
-                    
+
                     <div className="bg-brand/5 border border-brand/20 p-6 mb-6">
                       <div className="space-y-4">
                         <div className="flex justify-between items-center">
@@ -97,7 +120,7 @@ const DonationFormComponent = () => {
                             <Copy className="h-4 w-4" />
                           </button>
                         </div>
-                        
+
                         <div className="flex justify-between items-center">
                           <div>
                             <p className="text-sm text-gray-600 font-light">Bank</p>
@@ -111,7 +134,7 @@ const DonationFormComponent = () => {
                             <Copy className="h-4 w-4" />
                           </button>
                         </div>
-                        
+
                         <div className="flex justify-between items-center">
                           <div>
                             <p className="text-sm text-gray-600 font-light">Account Number</p>
@@ -125,7 +148,7 @@ const DonationFormComponent = () => {
                             <Copy className="h-4 w-4" />
                           </button>
                         </div>
-                        
+
                         <div className="flex justify-between items-center">
                           <div>
                             <p className="text-sm text-gray-600 font-light">Sort Code</p>
@@ -145,8 +168,11 @@ const DonationFormComponent = () => {
                     <div className="bg-blue-50 border border-blue-200 p-4 mb-6">
                       <h4 className="font-medium text-blue-800 mb-2">After Your Transfer</h4>
                       <p className="text-sm text-blue-700 font-light">
-                        Please send proof of payment to <a href="mailto:donations@dangafoundation.org" className="underline">donations@dangafoundation.org</a> 
-                        {' '}with your full name and email address to receive your donation receipt.
+                        Please send proof of payment to{' '}
+                        <a href="mailto:donations@dangafoundation.org" className="underline">
+                          donations@dangafoundation.org
+                        </a>{' '}
+                        with your full name and email address to receive your donation receipt.
                       </p>
                     </div>
                   </div>
@@ -157,16 +183,24 @@ const DonationFormComponent = () => {
                     <div className="space-y-3 text-sm">
                       <div className="flex items-center space-x-3">
                         <Phone className="h-4 w-4 text-brand" />
-                        <a href="tel:+2349111226666" className="text-brand hover:underline font-light">+234 911 122 6666</a>
+                        <a href="tel:+2349111226666" className="text-brand hover:underline font-light">
+                          +234 911 122 6666
+                        </a>
                       </div>
                       <div className="flex items-center space-x-3">
                         <Mail className="h-4 w-4 text-brand" />
-                        <a href="mailto:donations@dangafoundation.org" className="text-brand hover:underline font-light">donations@dangafoundation.org</a>
+                        <a
+                          href="mailto:donations@dangafoundation.org"
+                          className="text-brand hover:underline font-light"
+                        >
+                          donations@dangafoundation.org
+                        </a>
                       </div>
                       <div className="flex items-start space-x-3">
                         <MapPin className="h-4 w-4 text-brand mt-1" />
                         <div className="font-light text-gray-700">
-                          4B King AJ Turner Crescent<br />
+                          4B King AJ Turner Crescent
+                          <br />
                           Wuye, Abuja, Nigeria
                         </div>
                       </div>
@@ -176,7 +210,9 @@ const DonationFormComponent = () => {
                   <div className="mt-8 p-4 bg-gray-50 border border-gray-200">
                     <div className="flex items-center space-x-2 mb-2">
                       <Heart className="h-4 w-4 text-brand" />
-                      <span className="text-sm font-medium text-gray-900">100% of your donation goes to our programs</span>
+                      <span className="text-sm font-medium text-gray-900">
+                        100% of your donation goes to our programs
+                      </span>
                     </div>
                     <p className="text-xs text-gray-600 font-light">
                       We're committed to transparency. Administrative costs are covered by separate funding.
@@ -184,6 +220,7 @@ const DonationFormComponent = () => {
                   </div>
                 </div>
               </div>
+              {/* End Right Column */}
             </div>
           </div>
         </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Target, Eye, Heart, ArrowRight, Users, LucideProps } from 'lucide-react';
 
@@ -67,6 +67,30 @@ const values: ValueItem[] = [
   },
 ];
 
+// Updated custom hook for intersection observer with proper typing
+const useIntersectionObserver = <T extends HTMLElement = HTMLElement>(options = {}) => {
+  const [isIntersecting, setIsIntersecting] = useState(false);
+  const ref = useRef<T>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsIntersecting(entry.isIntersecting);
+    }, {
+      threshold: 0.1,
+      rootMargin: '50px',
+      ...options,
+    });
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, [options]);
+
+  return [ref, isIntersecting] as const;
+};
+
 // SEO-optimized Mission component
 interface MissionProps {
   organizationId?: string;
@@ -77,6 +101,8 @@ const Mission: React.FC<MissionProps> = ({
   organizationId = 'https://www.dangamemorial.org/#organization',
   showCallToAction = true 
 }) => {
+  const [headerRef, headerInView] = useIntersectionObserver<HTMLDivElement>();
+  const [ctaRef, ctaInView] = useIntersectionObserver<HTMLDivElement>();
   
   // Organization schema reference
   const organizationSchema = {
@@ -163,7 +189,7 @@ const Mission: React.FC<MissionProps> = ({
       />
 
       <section 
-        className="py-16 md:py-24 bg-white"
+        className="py-16 md:py-24 bg-white overflow-hidden"
         itemScope
         itemType="https://schema.org/AboutPage"
         aria-labelledby="mission-heading"
@@ -172,20 +198,35 @@ const Mission: React.FC<MissionProps> = ({
         <meta itemProp="description" content="Learn about our mission, vision, and values driving community empowerment across Nigeria" />
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-          {/* Section heading with enhanced SEO */}
-          <header className="text-center mb-16">
+          {/* Section heading with enhanced SEO and animations */}
+          <header 
+            ref={headerRef}
+            className={`text-center mb-16 transition-all duration-1000 ease-out ${
+              headerInView 
+                ? 'opacity-100 translate-y-0' 
+                : 'opacity-0 translate-y-10'
+            }`}
+          >
             <h2 
               id="mission-heading"
-              className="text-3xl md:text-4xl lg:text-5xl font-light text-gray-900 mb-4"
+              className={`text-3xl md:text-4xl lg:text-5xl font-light text-gray-900 mb-4 transition-all duration-1200 ease-out delay-200 ${
+                headerInView 
+                  ? 'opacity-100 translate-y-0' 
+                  : 'opacity-0 translate-y-8'
+              }`}
               itemProp="headline"
             >
               Our Mission, Vision and{' '}
-              <span className="bg-gradient-to-r from-brand to-brand-dark bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-brand to-brand-dark bg-clip-text text-transparent inline-block transform transition-transform duration-500 hover:scale-105">
                 Values
               </span>
             </h2>
             <p 
-              className="text-xl text-gray-600 max-w-3xl mx-auto font-light"
+              className={`text-xl text-gray-600 max-w-3xl mx-auto font-light transition-all duration-1200 ease-out delay-400 ${
+                headerInView 
+                  ? 'opacity-100 translate-y-0' 
+                  : 'opacity-0 translate-y-6'
+              }`}
               itemProp="description"
             >
               Our foundation is built on the belief that sustainable change begins with empowering
@@ -203,7 +244,7 @@ const Mission: React.FC<MissionProps> = ({
             </div>
           </header>
 
-          {/* Values grid with enhanced schema markup */}
+          {/* Values grid with enhanced schema markup and staggered animations */}
           <div 
             className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12"
             itemScope
@@ -214,12 +255,20 @@ const Mission: React.FC<MissionProps> = ({
             
             {values.map((value, index) => {
               const Icon = value.icon;
+              const [cardRef, cardInView] = useIntersectionObserver<HTMLDivElement>();
+              
               return (
                 <article
                   key={value.id}
-                  className={`text-center transition-all duration-300 hover:transform hover:scale-105 ${
-                    index === 1 ? 'lg:scale-105' : ''
-                  }`}
+                  ref={cardRef}
+                  className={`text-center group transition-all duration-700 ease-out ${
+                    cardInView 
+                      ? 'opacity-100 translate-y-0' 
+                      : 'opacity-0 translate-y-12'
+                  } ${index === 1 ? 'lg:scale-105' : ''}`}
+                  style={{
+                    transitionDelay: `${200 + index * 200}ms`
+                  }}
                   itemProp="itemListElement"
                   itemScope
                   itemType="https://schema.org/Thing"
@@ -229,31 +278,38 @@ const Mission: React.FC<MissionProps> = ({
                   <meta itemProp="description" content={value.shortDescription} />
                   
                   <div 
-                    className="bg-white p-8 shadow-sm hover:shadow-md transition-shadow duration-300 h-full"
+                    className="bg-white p-8 shadow-sm hover:shadow-xl transition-all duration-500 h-full transform hover:scale-105 hover:-translate-y-2 relative overflow-hidden"
                     itemScope
                     itemType={`https://schema.org/${value.schemaType}`}
                   >
+                    {/* Subtle background animation on hover */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-transparent to-brand/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    
                     <div 
-                      className="flex items-center justify-center mx-auto mb-6"
+                      className="flex items-center justify-center mx-auto mb-6 relative z-10"
                       role="img"
                       aria-label={`${value.title} icon`}
                     >
-                      <Icon 
-                        className="h-12 w-12 text-brand font-light" 
-                        strokeWidth={1} 
-                        aria-hidden="true"
-                      />
+                      <div className="relative">
+                        <Icon 
+                          className="h-12 w-12 text-brand font-light transform transition-all duration-500 group-hover:scale-110 group-hover:rotate-3" 
+                          strokeWidth={1} 
+                          aria-hidden="true"
+                        />
+                        {/* Animated ring on hover */}
+                        <div className="absolute inset-0 border-2 border-brand/20 rounded-full scale-150 opacity-0 group-hover:opacity-100 group-hover:scale-125 transition-all duration-500"></div>
+                      </div>
                     </div>
                     
                     <h3 
-                      className="text-2xl font-light text-gray-900 mb-4"
+                      className="text-2xl font-light text-gray-900 mb-4 relative z-10 transition-colors duration-300 group-hover:text-brand"
                       itemProp="name"
                     >
                       {value.title}
                     </h3>
                     
-                    <div itemProp="description">
-                      <p className="text-gray-600 leading-relaxed font-light text-justify">
+                    <div itemProp="description" className="relative z-10">
+                      <p className="text-gray-600 leading-relaxed font-light text-justify transition-colors duration-300 group-hover:text-gray-700">
                         {value.description}
                       </p>
                     </div>
@@ -273,22 +329,38 @@ const Mission: React.FC<MissionProps> = ({
             })}
           </div>
 
-          {/* Enhanced Call to action with schema markup */}
+          {/* Enhanced Call to action with schema markup and animations */}
           {showCallToAction && (
             <div 
-              className="text-center mt-16"
+              ref={ctaRef}
+              className={`text-center mt-16 transition-all duration-1000 ease-out ${
+                ctaInView 
+                  ? 'opacity-100 translate-y-0' 
+                  : 'opacity-0 translate-y-10'
+              }`}
               itemScope
               itemType="https://schema.org/CallToAction"
             >
-              <div className="bg-white p-8 shadow-sm max-w-4xl mx-auto">
+              <div className="bg-white p-8 shadow-sm hover:shadow-lg transition-all duration-500 max-w-4xl mx-auto transform hover:scale-[1.02] relative overflow-hidden group">
+                {/* Animated background gradient */}
+                <div className="absolute inset-0 bg-gradient-to-r from-brand/5 to-brand-dark/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                
                 <h3 
-                  className="text-2xl md:text-3xl font-light text-gray-900 mb-4"
+                  className={`text-2xl md:text-3xl font-light text-gray-900 mb-4 relative z-10 transition-all duration-800 delay-200 ${
+                    ctaInView 
+                      ? 'opacity-100 translate-y-0' 
+                      : 'opacity-0 translate-y-6'
+                  }`}
                   itemProp="name"
                 >
                   Join Our Mission
                 </h3>
                 <p 
-                  className="text-lg text-gray-600 mb-6 font-light"
+                  className={`text-lg text-gray-600 mb-6 font-light relative z-10 transition-all duration-800 delay-400 ${
+                    ctaInView 
+                      ? 'opacity-100 translate-y-0' 
+                      : 'opacity-0 translate-y-4'
+                  }`}
                   itemProp="description"
                 >
                   Together, we can create lasting change and build stronger, more resilient communities.
@@ -296,29 +368,33 @@ const Mission: React.FC<MissionProps> = ({
                 </p>
                 
                 <div 
-                  className="flex flex-col sm:flex-row gap-4 justify-center"
+                  className={`flex flex-col sm:flex-row gap-4 justify-center relative z-10 transition-all duration-800 delay-600 ${
+                    ctaInView 
+                      ? 'opacity-100 translate-y-0' 
+                      : 'opacity-0 translate-y-4'
+                  }`}
                   itemScope
                   itemType="https://schema.org/ActionAccessSpecification"
                 >
                   <Link
                     href="/get-involved"
-                    className="group px-6 py-3 bg-brand text-white hover:bg-brand-dark transition-colors duration-300 font-medium inline-flex items-center justify-center"
+                    className="group/btn px-6 py-3 bg-brand text-white hover:bg-brand-dark transition-all duration-300 font-medium inline-flex items-center justify-center transform hover:scale-105 hover:shadow-lg"
                     itemProp="target"
                     aria-label="Get involved with Danga Memorial Foundation programs"
                   >
-                    <Users className="mr-2 h-4 w-4" aria-hidden="true" />
+                    <Users className="mr-2 h-4 w-4 transition-transform duration-300 group-hover/btn:scale-110" aria-hidden="true" />
                     Get Involved
-                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+                    <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1" aria-hidden="true" />
                   </Link>
                   
                   <Link
                     href="/about"
-                    className="group px-6 py-3 border-2 border-brand text-brand hover:bg-brand hover:text-white transition-all duration-300 font-medium inline-flex items-center justify-center"
+                    className="group/btn px-6 py-3 border-2 border-brand text-brand hover:bg-brand hover:text-white transition-all duration-300 font-medium inline-flex items-center justify-center transform hover:scale-105 hover:shadow-lg"
                     itemProp="result"
                     aria-label="Learn more about Danga Memorial Foundation"
                   >
                     Learn More
-                    <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
+                    <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1" aria-hidden="true" />
                   </Link>
                 </div>
 

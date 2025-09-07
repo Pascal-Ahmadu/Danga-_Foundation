@@ -1,3 +1,6 @@
+'use client';
+
+import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { 
   Users, 
@@ -9,6 +12,30 @@ import {
   ArrowRight 
 } from 'lucide-react';
 import BreadcrumbSchema from '@/components/schemas/BreadcrumbSchema';
+
+// Custom hook for intersection observer with proper typing
+const useIntersectionObserver = <T extends HTMLElement = HTMLElement>(options = {}) => {
+  const [isIntersecting, setIsIntersecting] = useState(false);
+  const ref = useRef<T>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsIntersecting(entry.isIntersecting);
+    }, {
+      threshold: 0.1,
+      rootMargin: '50px',
+      ...options,
+    });
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, [options]);
+
+  return [ref, isIntersecting] as const;
+};
 
 const programs = [
   {
@@ -61,6 +88,8 @@ export default function Programs({
   currentPage,
   baseUrl = 'https://www.danga.org'
 }: ProgramsProps = {}) {
+  const [headerRef, headerInView] = useIntersectionObserver<HTMLDivElement>();
+  const [ctaRef, ctaInView] = useIntersectionObserver<HTMLDivElement>();
   
   // Generate breadcrumb items based on context
   const getBreadcrumbItems = () => {
@@ -91,29 +120,60 @@ export default function Programs({
       
       <section className="py-16 md:py-24 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-light text-gray-900 mb-4">
+          {/* Animated header section */}
+          <div 
+            ref={headerRef}
+            className={`text-center mb-16 transition-all duration-1000 ease-out ${
+              headerInView 
+                ? 'opacity-100 translate-y-0' 
+                : 'opacity-0 translate-y-10'
+            }`}
+          >
+            <h2 
+              className={`text-3xl md:text-4xl lg:text-5xl font-light text-gray-900 mb-4 transition-all duration-1200 ease-out delay-200 ${
+                headerInView 
+                  ? 'opacity-100 translate-y-0' 
+                  : 'opacity-0 translate-y-8'
+              }`}
+            >
               Our <span className="bg-gradient-to-r from-brand-light to-brand-dark bg-clip-text text-transparent">Impact Programs</span>
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto font-light">
+            <p 
+              className={`text-xl text-gray-600 max-w-3xl mx-auto font-light transition-all duration-1200 ease-out delay-400 ${
+                headerInView 
+                  ? 'opacity-100 translate-y-0' 
+                  : 'opacity-0 translate-y-6'
+              }`}
+            >
               We focus on six key areas that we plan to develop in order to create sustainable change 
               and empower communities to thrive through future community-driven initiatives.
             </p>
           </div>
 
+          {/* Animated programs grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {programs.map((program) => {
+            {programs.map((program, index) => {
               const Icon = program.icon;
+              const [cardRef, cardInView] = useIntersectionObserver<HTMLDivElement>();
+              
               return (
                 <Link
                   key={program.title}
                   href={program.href}
-                  className="group block transition-all duration-300 hover:transform hover:scale-105"
+                  className={`group block transition-all duration-700 ease-out ${
+                    cardInView 
+                      ? 'opacity-100 translate-y-0' 
+                      : 'opacity-0 translate-y-12'
+                  }`}
+                  style={{
+                    transitionDelay: `${200 + index * 100}ms`
+                  }}
+                  ref={cardRef}
                 >
                   <div className="bg-white p-8 shadow-sm hover:shadow-md h-full border border-gray-100 
-                                  group-hover:border-brand/20 transition-all duration-300">
+                                  group-hover:border-brand/20 transition-all duration-300 transform hover:scale-105">
                     <div className="flex items-center justify-center mb-6">
-                      <Icon className="h-12 w-12 text-brand font-light" strokeWidth="1" />
+                      <Icon className="h-12 w-12 text-brand font-light transform transition-all duration-500 group-hover:scale-110 group-hover:rotate-3" strokeWidth="1" />
                     </div>
                     
                     <h3 className="text-xl font-light text-gray-900 mb-3 group-hover:text-brand 
@@ -130,13 +190,28 @@ export default function Programs({
             })}
           </div>
 
-          <div className="text-center mt-16">
+          {/* Animated call to action */}
+          <div 
+            ref={ctaRef}
+            className={`text-center mt-16 transition-all duration-1000 ease-out ${
+              ctaInView 
+                ? 'opacity-100 translate-y-0' 
+                : 'opacity-0 translate-y-10'
+            }`}
+          >
             <Link
               href="/what-we-do"
-              className="px-6 py-3 bg-brand text-white hover:bg-brand-dark transition-colors duration-300 font-medium inline-flex items-center"
+              className={`px-6 py-3 bg-brand text-white hover:bg-brand-dark transition-all duration-300 font-medium inline-flex items-center transform hover:scale-105 hover:shadow-lg ${
+                ctaInView 
+                  ? 'opacity-100 translate-y-0' 
+                  : 'opacity-0 translate-y-4'
+              }`}
+              style={{
+                transitionDelay: '600ms'
+              }}
             >
               View All Programs
-              <ArrowRight className="ml-2 h-5 w-5" />
+              <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
           </div>
         </div>

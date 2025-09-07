@@ -15,7 +15,7 @@ export default function Home() {
         <Hero />
         <Mission />
         <Programs />
-        <News />
+       
       </main>
       <Footer />
     </>

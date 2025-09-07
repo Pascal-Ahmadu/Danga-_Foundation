@@ -1,17 +1,19 @@
 'use client';
 
-import { useState } from 'react';
-import { createClient } from '@/utils/supabase/client';
-import { 
-  GraduationCap, 
-  FileText, 
-  User, 
-  Upload, 
+import React, { useCallback, useState, memo } from 'react';
+import {
+  GraduationCap,
+  FileText,
+  User,
+  Upload,
   DollarSign,
   CheckCircle,
-  AlertCircle
+  AlertCircle,
 } from 'lucide-react';
 
+// =====================
+// Types
+// =====================
 interface FormData {
   firstName: string;
   lastName: string;
@@ -34,12 +36,160 @@ interface FormData {
   educationDocument: File | null;
 }
 
-const ScholarshipApplicationClient = () => {
+interface SelectOption {
+  value: string;
+  label: string;
+}
+
+interface InputFieldProps {
+  id: string;
+  name: keyof FormData;
+  label: string;
+  type?: 'text' | 'email' | 'tel' | 'date' | 'select' | 'textarea';
+  placeholder?: string;
+  value: string;
+  onChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => void;
+  error?: string;
+  options?: SelectOption[];
+}
+
+interface FileUploadFieldProps {
+  id: string;
+  name: keyof FormData;
+  label: string;
+  file: File | null;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  error?: string;
+}
+
+// =====================
+// Child components (defined OUTSIDE to avoid remounting on each render)
+// =====================
+const InputField = memo(function InputField({
+  id,
+  name,
+  label,
+  type = 'text',
+  placeholder,
+  value,
+  onChange,
+  error,
+  options = [],
+}: InputFieldProps) {
+  return (
+    <div className="animate-fade-in-up">
+      <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-2">
+        {label}
+      </label>
+
+      {type === 'select' ? (
+        <select
+          id={id}
+          name={name}
+          value={value ?? ''}
+          onChange={onChange}
+          className={`w-full px-4 py-3 border focus:ring-2 focus:ring-brand focus:border-brand transition-all duration-200 ${
+            error ? 'border-red-500' : 'border-gray-300'
+          }`}
+        >
+          <option value="">Select {label}</option>
+          {options.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+      ) : type === 'textarea' ? (
+        <textarea
+          id={id}
+          name={name}
+          value={value ?? ''}
+          onChange={onChange}
+          rows={4}
+          className={`w-full px-4 py-3 border focus:ring-2 focus:ring-brand focus:border-brand transition-all duration-200 ${
+            error ? 'border-red-500' : 'border-gray-300'
+          }`}
+          placeholder={placeholder}
+        />
+      ) : (
+        <input
+          type={type}
+          id={id}
+          name={name}
+          value={value ?? ''}
+          onChange={onChange}
+          className={`w-full px-4 py-3 border focus:ring-2 focus:ring-brand focus:border-brand transition-all duration-200 ${
+            error ? 'border-red-500' : 'border-gray-300'
+          }`}
+          placeholder={placeholder}
+          autoComplete="off"
+        />
+      )}
+
+      {error && <p className="text-red-500 text-sm mt-1 animate-shake">{error}</p>}
+    </div>
+  );
+});
+
+const FileUploadField = memo(function FileUploadField({
+  id,
+  name,
+  label,
+  file,
+  onChange,
+  error,
+}: FileUploadFieldProps) {
+  return (
+    <div className="animate-fade-in-up">
+      <label className="block text-sm font-medium text-gray-700 mb-2">{label}</label>
+      <div className="mt-1">
+        <div
+          className={`border-2 border-dashed p-6 text-center transition-all duration-200 ${
+            error
+              ? 'border-red-300 bg-red-50'
+              : file
+              ? 'border-green-300 bg-green-50'
+              : 'border-gray-300 bg-gray-50 hover:border-brand hover:bg-blue-50'
+          }`}
+        >
+          <input
+            type="file"
+            id={id}
+            name={name}
+            onChange={onChange}
+            accept=".pdf,.jpg,.jpeg,.png"
+            className="hidden"
+          />
+          <label htmlFor={id} className="cursor-pointer">
+            <Upload
+              className={`w-8 h-8 mx-auto mb-2 transition-all duration-200 ${
+                file ? 'text-green-500' : 'text-gray-400'
+              }`}
+            />
+            <p className={`text-sm font-medium ${file ? 'text-green-700' : 'text-gray-600'}`}>
+              {file ? `Selected: ${file.name}` : `Click to upload ${label}`}
+            </p>
+            <p className="text-xs text-gray-500 mt-1">PDF, JPG, PNG (Max: 100KB)</p>
+          </label>
+        </div>
+        {error && <p className="text-red-500 text-sm mt-1 animate-shake">{error}</p>}
+      </div>
+    </div>
+  );
+});
+
+// =====================
+// Main component
+// =====================
+export default function ScholarshipApplicationClient() {
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [referenceId, setReferenceId] = useState('');
-  
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
   const [formData, setFormData] = useState<FormData>({
     firstName: '',
     lastName: '',
@@ -59,206 +209,271 @@ const ScholarshipApplicationClient = () => {
     parentGuardianName: '',
     familyIncome: '',
     indigeneLetter: null,
-    educationDocument: null
+    educationDocument: null,
   });
 
-  const [errors, setErrors] = useState<{[key: string]: string}>({});
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: '' }));
-    }
-  };
+  // ---------------------
+  // Handlers
+  // ---------------------
+  const handleInputChange = useCallback(
+    (
+      e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+    ) => {
+      const { name, value } = e.target;
+      setFormData((prev) => ({ ...prev, [name]: value } as FormData));
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, files } = e.target;
-    if (files && files[0]) {
-      // Check file size - 100KB limit (102,400 bytes)
-      if (files[0].size > 100 * 1024) {
-        setErrors(prev => ({ ...prev, [name]: 'File size must be less than 100KB' }));
-        return;
-      }
-      
-      const allowedTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'];
-      if (!allowedTypes.includes(files[0].type)) {
-        setErrors(prev => ({ ...prev, [name]: 'Only PDF, JPG, and PNG files are allowed' }));
-        return;
-      }
-      
-      setFormData(prev => ({ ...prev, [name]: files[0] }));
+      // Clear error for this field
       if (errors[name]) {
-        setErrors(prev => ({ ...prev, [name]: '' }));
+        setErrors((prev) => {
+          const cloned = { ...prev };
+          delete cloned[name];
+          return cloned;
+        });
       }
-    }
-  };
+    },
+    [errors]
+  );
 
-  const validateStep = (step: number): boolean => {
-    const newErrors: {[key: string]: string} = {};
-
-    if (step === 1) {
-      if (!formData.firstName.trim()) newErrors.firstName = 'First name is required';
-      if (!formData.lastName.trim()) newErrors.lastName = 'Last name is required';
-      if (!formData.email.trim()) newErrors.email = 'Email is required';
-      else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Please enter a valid email';
-      if (!formData.phone.trim()) newErrors.phone = 'Phone number is required';
-      else if (!/^(\+234|0)[789]\d{9}$/.test(formData.phone.replace(/\s+/g, ''))) {
-        newErrors.phone = 'Please enter a valid Nigerian phone number';
+  const handleFileChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, files } = e.target;
+      if (files && files[0]) {
+        // 100KB max
+        if (files[0].size > 100 * 1024) {
+          setErrors((prev) => ({ ...prev, [name]: 'File size must be less than 100KB' }));
+          return;
+        }
+        const allowed = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'];
+        if (!allowed.includes(files[0].type)) {
+          setErrors((prev) => ({ ...prev, [name]: 'Only PDF, JPG, and PNG files are allowed' }));
+          return;
+        }
+        setFormData((prev) => ({ ...prev, [name]: files[0] } as FormData));
+        if (errors[name]) {
+          setErrors((prev) => {
+            const cloned = { ...prev };
+            delete cloned[name];
+            return cloned;
+          });
+        }
       }
-      if (!formData.dateOfBirth) newErrors.dateOfBirth = 'Date of birth is required';
-      if (!formData.gender) newErrors.gender = 'Gender is required';
-    }
+    },
+    [errors]
+  );
 
-    if (step === 2) {
-      if (!formData.address.trim()) newErrors.address = 'Address is required';
-      if (!formData.city.trim()) newErrors.city = 'City is required';
-      if (!formData.educationLevel) newErrors.educationLevel = 'Education level is required';
-      if (!formData.currentSchool.trim()) newErrors.currentSchool = 'Current school is required';
-      if (!formData.course.trim()) newErrors.course = 'Course/Field of study is required';
-      if (!formData.yearOfStudy) newErrors.yearOfStudy = 'Year of study is required';
+  // ---------------------
+  // Validation
+  // ---------------------
+  const validateField = useCallback((name: keyof FormData, value: string): string => {
+    switch (name) {
+      case 'firstName':
+        return !value.trim() ? 'First name is required' : '';
+      case 'lastName':
+        return !value.trim() ? 'Last name is required' : '';
+      case 'email':
+        if (!value.trim()) return 'Email is required';
+        if (!/\S+@\S+\.\S+/.test(value)) return 'Please enter a valid email';
+        return '';
+      case 'phone':
+        if (!value.trim()) return 'Phone number is required';
+        if (!/(^((\+234)|0)[789]\d{9}$)/.test(value.replace(/\s+/g, ''))) {
+          return 'Please enter a valid Nigerian phone number';
+        }
+        return '';
+      case 'dateOfBirth':
+        return !value ? 'Date of birth is required' : '';
+      case 'gender':
+        return !value ? 'Gender is required' : '';
+      case 'address':
+        return !value.trim() ? 'Address is required' : '';
+      case 'city':
+        return !value.trim() ? 'City is required' : '';
+      case 'educationLevel':
+        return !value ? 'Education level is required' : '';
+      case 'currentSchool':
+        return !value.trim() ? 'Current school is required' : '';
+      case 'course':
+        return !value.trim() ? 'Course/Field of study is required' : '';
+      case 'yearOfStudy':
+        return !value ? 'Year of study is required' : '';
+      case 'scholarshipType':
+        return !value ? 'Scholarship type is required' : '';
+      case 'reasonForApplication':
+        if (!value.trim()) return 'Reason for application is required';
+        if (value.trim().length < 50)
+          return 'Please provide a detailed explanation (minimum 50 characters)';
+        return '';
+      case 'parentGuardianName':
+        return !value.trim() ? 'Parent/Guardian name is required' : '';
+      case 'familyIncome':
+        return !value ? 'Family income range is required' : '';
+      default:
+        return '';
     }
+  }, []);
 
-    if (step === 3) {
-      if (!formData.scholarshipType) newErrors.scholarshipType = 'Scholarship type is required';
-      if (!formData.reasonForApplication.trim()) newErrors.reasonForApplication = 'Reason for application is required';
-      else if (formData.reasonForApplication.trim().length < 50) {
-        newErrors.reasonForApplication = 'Please provide a detailed explanation (minimum 50 characters)';
+  const validateStep = useCallback(
+    (step: number): boolean => {
+      const newErrors: Record<string, string> = {};
+
+      if (step === 1) {
+        const fields: (keyof FormData)[] = [
+          'firstName',
+          'lastName',
+          'email',
+          'phone',
+          'dateOfBirth',
+          'gender',
+        ];
+        fields.forEach((f) => {
+          const v = (formData[f] as unknown as string) ?? '';
+          const err = validateField(f, v);
+          if (err) newErrors[f] = err;
+        });
       }
-      if (!formData.parentGuardianName.trim()) newErrors.parentGuardianName = 'Parent/Guardian name is required';
-      if (!formData.familyIncome) newErrors.familyIncome = 'Family income range is required';
-    }
 
-    if (step === 4) {
-      if (!formData.indigeneLetter) newErrors.indigeneLetter = 'Indigene letter is required';
-      if (!formData.educationDocument) newErrors.educationDocument = 'Education document is required';
-    }
+      if (step === 2) {
+        const fields: (keyof FormData)[] = [
+          'address',
+          'city',
+          'educationLevel',
+          'currentSchool',
+          'course',
+          'yearOfStudy',
+        ];
+        fields.forEach((f) => {
+          const v = (formData[f] as unknown as string) ?? '';
+          const err = validateField(f, v);
+          if (err) newErrors[f] = err;
+        });
+      }
 
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+      if (step === 3) {
+        const fields: (keyof FormData)[] = [
+          'scholarshipType',
+          'reasonForApplication',
+          'parentGuardianName',
+          'familyIncome',
+        ];
+        fields.forEach((f) => {
+          const v = (formData[f] as unknown as string) ?? '';
+          const err = validateField(f, v);
+          if (err) newErrors[f] = err;
+        });
+      }
 
-  const nextStep = () => {
+      if (step === 4) {
+        if (!formData.indigeneLetter)
+          newErrors.indigeneLetter = 'Indigene letter is required';
+        if (!formData.educationDocument)
+          newErrors.educationDocument = 'Education document is required';
+      }
+
+      setErrors(newErrors);
+      return Object.keys(newErrors).length === 0;
+    },
+    [formData, validateField]
+  );
+
+  // ---------------------
+  // Step navigation
+  // ---------------------
+  const nextStep = useCallback(() => {
     if (validateStep(currentStep)) {
-      setCurrentStep(prev => Math.min(prev + 1, 4));
+      setIsTransitioning(true);
+      setTimeout(() => {
+        setCurrentStep((prev) => Math.min(prev + 1, 4));
+        setIsTransitioning(false);
+      }, 300);
     }
-  };
+  }, [currentStep, validateStep]);
 
-  const prevStep = () => {
-    setCurrentStep(prev => Math.max(prev - 1, 1));
-  };
+  const prevStep = useCallback(() => {
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setCurrentStep((prev) => Math.max(prev - 1, 1));
+      setIsTransitioning(false);
+    }, 300);
+  }, []);
 
-  const uploadFile = async (file: File, bucket: string, fileName: string) => {
-    const supabase = createClient();
-    const { data, error } = await supabase.storage
-      .from(bucket)
-      .upload(fileName, file);
-    
-    if (error) throw error;
-    return data.path;
+  // ---------------------
+  // Mock upload + submit
+  // ---------------------
+  const uploadFile = async (_file: File, _bucket: string, fileName: string) => {
+    // Simulated upload
+    return new Promise<string>((resolve) => {
+      setTimeout(() => resolve(fileName), 500);
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
     if (!validateStep(4)) return;
 
     setIsSubmitting(true);
-
     try {
-      const supabase = createClient();
       const refId = `DMF-${Date.now().toString().slice(-8)}`;
-      
-      // Upload files to Supabase Storage
       let indigeneLetterPath = '';
       let educationDocumentPath = '';
-      
+
       if (formData.indigeneLetter) {
         const fileName = `${refId}-indigene-${formData.indigeneLetter.name}`;
-        indigeneLetterPath = await uploadFile(formData.indigeneLetter, 'scholarship-documents', fileName);
+        indigeneLetterPath = await uploadFile(
+          formData.indigeneLetter,
+          'scholarship-documents',
+          fileName
+        );
       }
-      
       if (formData.educationDocument) {
         const fileName = `${refId}-education-${formData.educationDocument.name}`;
-        educationDocumentPath = await uploadFile(formData.educationDocument, 'scholarship-documents', fileName);
+        educationDocumentPath = await uploadFile(
+          formData.educationDocument,
+          'scholarship-documents',
+          fileName
+        );
       }
 
-      // Insert form data into Supabase database
-      const { data, error } = await supabase
-        .from('scholarship_applications')
-        .insert({
-          reference_id: refId,
-          first_name: formData.firstName,
-          last_name: formData.lastName,
-          email: formData.email,
-          phone: formData.phone,
-          date_of_birth: formData.dateOfBirth,
-          gender: formData.gender,
-          address: formData.address,
-          city: formData.city,
-          education_level: formData.educationLevel,
-          current_school: formData.currentSchool,
-          course: formData.course,
-          year_of_study: formData.yearOfStudy,
-          scholarship_type: formData.scholarshipType,
-          amount_requested: formData.amountRequested,
-          reason_for_application: formData.reasonForApplication,
-          parent_guardian_name: formData.parentGuardianName,
-          family_income: formData.familyIncome,
-          indigene_letter_path: indigeneLetterPath,
-          education_document_path: educationDocumentPath,
-          status: 'pending',
-          submitted_at: new Date().toISOString()
-        })
-        .select()
-        .single();
+      // Simulate DB insert + email
+      await new Promise((r) => setTimeout(r, 600));
+      await new Promise((r) => setTimeout(r, 400));
 
-      if (error) throw error;
-
-      // Send email notification via API route
-      const emailResponse = await fetch('/api/send-scholarship-email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          applicantEmail: formData.email,
-          applicantName: `${formData.firstName} ${formData.lastName}`,
-          referenceId: refId,
-          formData: formData
-        })
-      });
-
-      if (!emailResponse.ok) {
-        console.warn('Email sending failed, but form was submitted successfully');
-      }
-
+      console.log({ refId, indigeneLetterPath, educationDocumentPath });
       setReferenceId(refId);
       setSubmitSuccess(true);
-    } catch (error) {
-      console.error('Form submission error:', error);
+    } catch (err) {
+      console.error('Form submission error:', err);
       alert('There was an error submitting your application. Please try again or contact us directly.');
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  // ---------------------
+  // Success screen
+  // ---------------------
   if (submitSuccess) {
     return (
-      <div className="section-padding bg-white">
+      <div className="section-padding bg-white animate-fade-in">
         <div className="container max-w-4xl mx-auto">
           <div className="text-center">
             <div className="mb-8">
-              <CheckCircle className="w-20 h-20 text-green-500 mx-auto mb-4" />
-              <h2 className="text-3xl font-light text-gray-900 mb-4">Application Submitted Successfully!</h2>
-              <p className="text-lg text-gray-600 leading-relaxed mb-8">
-                Thank you for applying for the Danga Memorial Foundation scholarship. 
-                We have received your application and will review it within 2-3 weeks.
+              <CheckCircle className="w-20 h-20 text-green-500 mx-auto mb-4 animate-bounce" />
+              <h2 className="text-3xl font-light text-gray-900 mb-4 animate-slide-up">
+                Application Submitted Successfully!
+              </h2>
+              <p
+                className="text-lg text-gray-600 leading-relaxed mb-8 animate-slide-up"
+                style={{ animationDelay: '0.2s' }}
+              >
+                Thank you for applying for the Danga Memorial Foundation scholarship. We have received your
+                application and will review it within 2-3 weeks.
               </p>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-              <div className="bg-blue-50 p-6">
+              <div className="bg-blue-50 p-6 animate-slide-up" style={{ animationDelay: '0.4s' }}>
                 <h3 className="font-medium text-blue-900 mb-3">What happens next?</h3>
                 <ul className="text-sm text-blue-800 space-y-2 text-left">
                   <li>• Application review by our scholarship committee</li>
@@ -267,20 +482,27 @@ const ScholarshipApplicationClient = () => {
                   <li>• Final selection and notification within 4-6 weeks</li>
                 </ul>
               </div>
-              
-              <div className="bg-green-50 p-6">
+
+              <div className="bg-green-50 p-6 animate-slide-up" style={{ animationDelay: '0.6s' }}>
                 <h3 className="font-medium text-green-900 mb-3">Contact Us</h3>
                 <div className="text-sm text-green-800 space-y-2 text-left">
-                  <p><strong>Email:</strong> scholarships@danga.org</p>
-                  <p><strong>Phone:</strong> +234-XXX-XXX-XXXX</p>
-                  <p><strong>Reference ID:</strong> {referenceId}</p>
+                  <p>
+                    <strong>Email:</strong> scholarships@danga.org
+                  </p>
+                  <p>
+                    <strong>Phone:</strong> +234-XXX-XXX-XXXX
+                  </p>
+                  <p>
+                    <strong>Reference ID:</strong> {referenceId}
+                  </p>
                 </div>
               </div>
             </div>
-            
+
             <button
               onClick={() => window.location.reload()}
-              className="px-6 py-3 bg-brand text-white font-medium hover:bg-brand-dark transition-colors"
+              className="px-6 py-3 bg-brand text-white font-medium hover:bg-brand-dark transition-all duration-300 transform hover:scale-105 animate-slide-up"
+              style={{ animationDelay: '0.8s' }}
             >
               Submit Another Application
             </button>
@@ -290,97 +512,34 @@ const ScholarshipApplicationClient = () => {
     );
   }
 
+  // ---------------------
+  // Steps meta
+  // ---------------------
   const steps = [
     { number: 1, title: 'Personal Info', icon: User },
     { number: 2, title: 'Address & Education', icon: GraduationCap },
     { number: 3, title: 'Scholarship Info', icon: DollarSign },
-    { number: 4, title: 'Documents', icon: FileText }
-  ];
+    { number: 4, title: 'Documents', icon: FileText },
+  ] as const;
 
-  const InputField = ({ id, name, label, type = "text", placeholder, value, onChange, error, options = [] }: any) => (
-    <div>
-      <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-2">
-        {label}
-      </label>
-      {type === "select" ? (
-        <select
-          id={id}
-          name={name}
-          value={value}
-          onChange={onChange}
-          className={`w-full px-4 py-3 border focus:ring-2 focus:ring-brand focus:border-brand transition-colors ${
-            error ? 'border-red-500' : 'border-gray-300'
-          }`}
-        >
-          <option value="">Select {label}</option>
-          {options.map((option: any) => (
-            <option key={option.value} value={option.value}>{option.label}</option>
-          ))}
-        </select>
-      ) : (
-        <input
-          type={type}
-          id={id}
-          name={name}
-          value={value}
-          onChange={onChange}
-          className={`w-full px-4 py-3 border focus:ring-2 focus:ring-brand focus:border-brand transition-colors ${
-            error ? 'border-red-500' : 'border-gray-300'
-          }`}
-          placeholder={placeholder}
-        />
-      )}
-      {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
-    </div>
-  );
-
-  const FileUploadField = ({ id, name, label, file, onChange, error }: any) => (
-    <div>
-      <label className="block text-sm font-medium text-gray-700 mb-2">
-        {label}
-      </label>
-      <div className="mt-1">
-        <div className={`border-2 border-dashed p-6 text-center transition-colors ${
-          error ? 'border-red-300 bg-red-50' : 
-          file ? 'border-green-300 bg-green-50' : 'border-gray-300 bg-gray-50 hover:border-brand hover:bg-blue-50'
-        }`}>
-          <input
-            type="file"
-            id={id}
-            name={name}
-            onChange={onChange}
-            accept=".pdf,.jpg,.jpeg,.png"
-            className="hidden"
-          />
-          <label htmlFor={id} className="cursor-pointer">
-            <Upload className={`w-8 h-8 mx-auto mb-2 ${
-              file ? 'text-green-500' : 'text-gray-400'
-            }`} />
-            <p className={`text-sm font-medium ${
-              file ? 'text-green-700' : 'text-gray-600'
-            }`}>
-              {file ? `Selected: ${file.name}` : `Click to upload ${label}`}
-            </p>
-            <p className="text-xs text-gray-500 mt-1">PDF, JPG, PNG (Max: 100KB)</p>
-          </label>
-        </div>
-        {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
-      </div>
-    </div>
-  );
-
+  // ---------------------
+  // Render
+  // ---------------------
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header with added padding to push content down */}
-      <section className="pt-32 pb-16 bg-white border-b"> {/* Increased pt-32 to push content down further */}
+      {/* Header */}
+      <section className="pt-32 pb-16 bg-white border-b animate-fade-in">
         <div className="container max-w-6xl mx-auto px-4">
           <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-light text-gray-900 mb-6">
+            <h1 className="text-4xl md:text-5xl font-light text-gray-900 mb-6 animate-slide-up">
               Scholarship Application
             </h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto font-light">
-              Empowering the next generation through education. Apply for our scholarship program 
-              designed to support secondary and university students from less privileged communities.
+            <p
+              className="text-xl text-gray-600 max-w-3xl mx-auto font-light animate-slide-up"
+              style={{ animationDelay: '0.2s' }}
+            >
+              Empowering the next generation through education. Apply for our scholarship program designed to
+              support secondary and university students from less privileged communities.
             </p>
           </div>
         </div>
@@ -394,24 +553,35 @@ const ScholarshipApplicationClient = () => {
               const Icon = step.icon;
               const isActive = currentStep === step.number;
               const isCompleted = currentStep > step.number;
-              
+
               return (
                 <div key={step.number} className="flex items-center">
                   <div className="flex flex-col items-center">
-                    <div className={`w-12 h-12 flex items-center justify-center mb-2 transition-colors ${
-                      isCompleted ? 'bg-green-500 text-white' :
-                      isActive ? 'bg-brand text-white' : 'bg-gray-200 text-gray-500'
-                    }`}>
+                    <div
+                      className={`w-12 h-12 flex items-center justify-center mb-2 transition-all duration-500 ${
+                        isCompleted
+                          ? 'bg-green-500 text-white animate-scale-in'
+                          : isActive
+                          ? 'bg-brand text-white animate-scale-in'
+                          : 'bg-gray-200 text-gray-500'
+                      }`}
+                    >
                       {isCompleted ? <CheckCircle className="w-6 h-6" /> : <Icon className="w-6 h-6" />}
                     </div>
-                    <span className={`text-sm font-medium ${isActive ? 'text-brand' : 'text-gray-500'}`}>
+                    <span
+                      className={`text-sm font-medium transition-colors duration-300 ${
+                        isActive ? 'text-brand' : 'text-gray-500'
+                      }`}
+                    >
                       {step.title}
                     </span>
                   </div>
                   {index < steps.length - 1 && (
-                    <div className={`w-16 h-0.5 mx-4 transition-colors ${
-                      isCompleted ? 'bg-green-500' : 'bg-gray-200'
-                    }`} />
+                    <div
+                      className={`w-16 h-0.5 mx-4 transition-all duration-500 ${
+                        isCompleted ? 'bg-green-500' : 'bg-gray-200'
+                      }`}
+                    />
                   )}
                 </div>
               );
@@ -423,11 +593,15 @@ const ScholarshipApplicationClient = () => {
       {/* Form */}
       <section className="py-12">
         <div className="container max-w-4xl mx-auto px-4">
-          <form onSubmit={handleSubmit} className="bg-white shadow-sm p-8">
-            
-            {/* Step 1: Personal Information */}
+          <form
+            onSubmit={handleSubmit}
+            className={`bg-white shadow-sm p-8 transition-all duration-300 ${
+              isTransitioning ? 'opacity-75 transform translate-y-2' : 'opacity-100 transform translate-y-0'
+            }`}
+          >
+            {/* Step 1 */}
             {currentStep === 1 && (
-              <div>
+              <div className="animate-step-fade">
                 <h2 className="text-2xl font-light text-gray-900 mb-6">Personal Information</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <InputField
@@ -492,38 +666,31 @@ const ScholarshipApplicationClient = () => {
                     error={errors.gender}
                     options={[
                       { value: 'male', label: 'Male' },
-                      { value: 'female', label: 'Female' }
+                      { value: 'female', label: 'Female' },
                     ]}
                   />
                 </div>
               </div>
             )}
 
-            {/* Step 2: Address & Education Information */}
+            {/* Step 2 */}
             {currentStep === 2 && (
-              <div>
+              <div className="animate-step-fade">
                 <h2 className="text-2xl font-light text-gray-900 mb-6">Address & Education Information</h2>
                 <div className="space-y-6">
                   <div>
                     <h3 className="text-lg font-medium text-gray-800 mb-4">Address Details</h3>
                     <div className="grid grid-cols-1 gap-6">
-                      <div>
-                        <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-2">
-                          Home Address *
-                        </label>
-                        <textarea
-                          id="address"
-                          name="address"
-                          value={formData.address}
-                          onChange={handleInputChange}
-                          rows={2}
-                          className={`w-full px-4 py-3 border focus:ring-2 focus:ring-brand focus:border-brand transition-colors ${
-                            errors.address ? 'border-red-500' : 'border-gray-300'
-                          }`}
-                          placeholder="Enter your full home address"
-                        />
-                        {errors.address && <p className="text-red-500 text-sm mt-1">{errors.address}</p>}
-                      </div>
+                      <InputField
+                        id="address"
+                        name="address"
+                        label="Home Address *"
+                        type="textarea"
+                        value={formData.address}
+                        onChange={handleInputChange}
+                        error={errors.address}
+                        placeholder="Enter your full home address"
+                      />
 
                       <InputField
                         id="city"
@@ -550,7 +717,7 @@ const ScholarshipApplicationClient = () => {
                         error={errors.educationLevel}
                         options={[
                           { value: 'secondary', label: 'Secondary School' },
-                          { value: 'university', label: 'University/Higher Institution' }
+                          { value: 'university', label: 'University/Higher Institution' },
                         ]}
                       />
 
@@ -563,20 +730,22 @@ const ScholarshipApplicationClient = () => {
                         onChange={handleInputChange}
                         error={errors.yearOfStudy}
                         options={
-                          formData.educationLevel === 'secondary' ? [
-                            { value: 'JSS1', label: 'JSS 1' },
-                            { value: 'JSS2', label: 'JSS 2' },
-                            { value: 'JSS3', label: 'JSS 3' },
-                            { value: 'SS1', label: 'SS 1' },
-                            { value: 'SS2', label: 'SS 2' },
-                            { value: 'SS3', label: 'SS 3' }
-                          ] : [
-                            { value: '100Level', label: '100 Level' },
-                            { value: '200Level', label: '200 Level' },
-                            { value: '300Level', label: '300 Level' },
-                            { value: '400Level', label: '400 Level' },
-                            { value: '500Level', label: '500 Level' }
-                          ]
+                          formData.educationLevel === 'secondary'
+                            ? [
+                                { value: 'JSS1', label: 'JSS 1' },
+                                { value: 'JSS2', label: 'JSS 2' },
+                                { value: 'JSS3', label: 'JSS 3' },
+                                { value: 'SS1', label: 'SS 1' },
+                                { value: 'SS2', label: 'SS 2' },
+                                { value: 'SS3', label: 'SS 3' },
+                              ]
+                            : [
+                                { value: '100Level', label: '100 Level' },
+                                { value: '200Level', label: '200 Level' },
+                                { value: '300Level', label: '300 Level' },
+                                { value: '400Level', label: '400 Level' },
+                                { value: '500Level', label: '500 Level' },
+                              ]
                         }
                       />
 
@@ -609,9 +778,9 @@ const ScholarshipApplicationClient = () => {
               </div>
             )}
 
-            {/* Step 3: Scholarship Information */}
+            {/* Step 3 */}
             {currentStep === 3 && (
-              <div>
+              <div className="animate-step-fade">
                 <h2 className="text-2xl font-light text-gray-900 mb-6">Scholarship & Family Information</h2>
                 <div className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -629,7 +798,7 @@ const ScholarshipApplicationClient = () => {
                         { value: 'books_materials', label: 'Books & Materials' },
                         { value: 'living_allowance', label: 'Living Allowance' },
                         { value: 'full_scholarship', label: 'Full Scholarship' },
-                        { value: 'other', label: 'Other' }
+                        { value: 'other', label: 'Other' },
                       ]}
                     />
 
@@ -643,27 +812,21 @@ const ScholarshipApplicationClient = () => {
                     />
                   </div>
 
-                  <div>
-                    <label htmlFor="reasonForApplication" className="block text-sm font-medium text-gray-700 mb-2">
-                      Why do you need this scholarship? *
-                    </label>
-                    <textarea
-                      id="reasonForApplication"
-                      name="reasonForApplication"
-                      value={formData.reasonForApplication}
-                      onChange={handleInputChange}
-                      rows={4}
-                      className={`w-full px-4 py-3 border focus:ring-2 focus:ring-brand focus:border-brand transition-colors ${
-                        errors.reasonForApplication ? 'border-red-500' : 'border-gray-300'
-                      }`}
-                      placeholder="Please explain your financial situation, academic goals, and how this scholarship will help you..."
-                    />
-                    <div className="flex justify-between items-center mt-1">
-                      {errors.reasonForApplication && <p className="text-red-500 text-sm">{errors.reasonForApplication}</p>}
-                      <p className="text-xs text-gray-500 ml-auto">
-                        {formData.reasonForApplication.length}/50 characters minimum
-                      </p>
-                    </div>
+                  <InputField
+                    id="reasonForApplication"
+                    name="reasonForApplication"
+                    label="Why do you need this scholarship? *"
+                    type="textarea"
+                    value={formData.reasonForApplication}
+                    onChange={handleInputChange}
+                    error={errors.reasonForApplication}
+                    placeholder="Please explain your financial situation, academic goals, and how this scholarship will help you..."
+                  />
+
+                  <div className="flex justify-between items-center">
+                    <p className="text-xs text-gray-500">
+                      {formData.reasonForApplication.length}/50 characters minimum
+                    </p>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -690,7 +853,7 @@ const ScholarshipApplicationClient = () => {
                         { value: '30k_60k', label: '₦30,000 - ₦60,000' },
                         { value: '60k_100k', label: '₦60,000 - ₦100,000' },
                         { value: '100k_200k', label: '₦100,000 - ₦200,000' },
-                        { value: 'above_200k', label: 'Above ₦200,000' }
+                        { value: 'above_200k', label: 'Above ₦200,000' },
                       ]}
                     />
                   </div>
@@ -698,12 +861,12 @@ const ScholarshipApplicationClient = () => {
               </div>
             )}
 
-            {/* Step 4: Document Upload */}
+            {/* Step 4 */}
             {currentStep === 4 && (
-              <div>
+              <div className="animate-step-fade">
                 <h2 className="text-2xl font-light text-gray-900 mb-6">Required Documents</h2>
                 <div className="space-y-8">
-                  <div className="bg-yellow-50 border border-yellow-200 p-4 mb-6">
+                  <div className="bg-yellow-50 border border-yellow-200 p-4 mb-6 animate-fade-in-up">
                     <div className="flex items-start">
                       <AlertCircle className="w-5 h-5 text-yellow-600 mt-0.5 mr-2 flex-shrink-0" />
                       <div>
@@ -739,16 +902,16 @@ const ScholarshipApplicationClient = () => {
               </div>
             )}
 
-            {/* Navigation Buttons */}
+            {/* Nav buttons */}
             <div className="flex justify-between mt-8 pt-6 border-t">
               <button
                 type="button"
                 onClick={prevStep}
                 disabled={currentStep === 1}
-                className={`px-6 py-3 font-medium transition-colors ${
-                  currentStep === 1 
-                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
-                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                className={`px-6 py-3 font-medium transition-all duration-200 ${
+                  currentStep === 1
+                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300 transform hover:scale-105'
                 }`}
               >
                 Previous
@@ -758,7 +921,7 @@ const ScholarshipApplicationClient = () => {
                 <button
                   type="button"
                   onClick={nextStep}
-                  className="px-6 py-3 bg-brand text-white font-medium hover:bg-brand-dark transition-colors"
+                  className="px-6 py-3 bg-brand text-white font-medium hover:bg-brand-dark transition-all duration-200 transform hover:scale-105"
                 >
                   Next Step
                 </button>
@@ -766,13 +929,18 @@ const ScholarshipApplicationClient = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className={`px-6 py-3 font-medium transition-colors ${
-                    isSubmitting
-                      ? 'bg-gray-400 cursor-not-allowed'
-                      : 'bg-brand hover:bg-brand-dark'
+                  className={`px-6 py-3 font-medium transition-all duration-200 transform hover:scale-105 ${
+                    isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-brand hover:bg-brand-dark'
                   } text-white`}
                 >
-                  {isSubmitting ? 'Submitting...' : 'Submit Application'}
+                  {isSubmitting ? (
+                    <span className="flex items-center">
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                      Submitting...
+                    </span>
+                  ) : (
+                    'Submit Application'
+                  )}
                 </button>
               )}
             </div>
@@ -780,11 +948,11 @@ const ScholarshipApplicationClient = () => {
         </div>
       </section>
 
-      {/* Information Section */}
+      {/* Info */}
       <section className="py-16 bg-white">
         <div className="container max-w-4xl mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-blue-50 p-6">
+            <div className="bg-blue-50 p-6 animate-slide-up">
               <h3 className="text-lg font-medium text-blue-900 mb-3">Scholarship Benefits</h3>
               <ul className="text-sm text-blue-800 space-y-2">
                 <li>• Tuition and school fees coverage</li>
@@ -796,7 +964,7 @@ const ScholarshipApplicationClient = () => {
               </ul>
             </div>
 
-            <div className="bg-green-50 p-6">
+            <div className="bg-green-50 p-6 animate-slide-up" style={{ animationDelay: '0.2s' }}>
               <h3 className="text-lg font-medium text-green-900 mb-3">Selection Criteria</h3>
               <ul className="text-sm text-green-800 space-y-2">
                 <li>• Financial need assessment</li>
@@ -809,21 +977,69 @@ const ScholarshipApplicationClient = () => {
             </div>
           </div>
 
-          <div className="mt-8 p-6 bg-gray-50">
+          <div className="mt-8 p-6 bg-gray-50 animate-slide-up" style={{ animationDelay: '0.4s' }}>
             <h3 className="text-lg font-medium text-gray-900 mb-3">Contact Information</h3>
-            <p className="text-gray-600 mb-4">
-              For questions about the scholarship application process, please contact us:
-            </p>
+            <p className="text-gray-600 mb-4">For questions about the scholarship application process, please contact us:</p>
             <div className="space-y-2 text-sm text-gray-600">
-              <p><strong>Email:</strong> scholarships@danga.org</p>
-              <p><strong>Phone:</strong> +234-XXX-XXX-XXXX</p>
-              <p><strong>Office Hours:</strong> Monday - Friday, 9:00 AM - 5:00 PM</p>
+              <p>
+                <strong>Email:</strong> scholarships@danga.org
+              </p>
+              <p>
+                <strong>Phone:</strong> +234-XXX-XXX-XXXX
+              </p>
+              <p>
+                <strong>Office Hours:</strong> Monday - Friday, 9:00 AM - 5:00 PM
+              </p>
             </div>
           </div>
         </div>
       </section>
+
+      <style jsx>{`
+        @keyframes fade-in {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        @keyframes slide-up {
+          from { opacity: 0; transform: translateY(30px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fade-in-up {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes step-fade {
+          from { opacity: 0; transform: translateX(20px); }
+          to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes scale-in {
+          from { transform: scale(0.8); }
+          to { transform: scale(1); }
+        }
+        @keyframes shake {
+          0%, 20%, 50%, 80%, 100% { transform: translateX(0); }
+          10% { transform: translateX(-3px); }
+          30% { transform: translateX(3px); }
+          40% { transform: translateX(-3px); }
+          60% { transform: translateX(3px); }
+          70% { transform: translateX(-3px); }
+        }
+        .animate-fade-in { animation: fade-in 0.6s ease-out; }
+        .animate-slide-up { animation: slide-up 0.8s ease-out; }
+        .animate-fade-in-up { animation: fade-in-up 0.6s ease-out; }
+        .animate-step-fade { animation: step-fade 0.5s ease-out; }
+        .animate-scale-in { animation: scale-in 0.4s ease-out; }
+        .animate-shake { animation: shake 0.5s ease-in-out; }
+
+        /* Brand helpers */
+        .bg-brand { background-color: #3b82f6; }
+        .hover\\:bg-brand-dark:hover { background-color: #2563eb; }
+        .text-brand { color: #3b82f6; }
+        .focus\\:ring-brand:focus { --tw-ring-color: #3b82f6; }
+        .focus\\:border-brand:focus { border-color: #3b82f6; }
+        .hover\\:border-brand:hover { border-color: #3b82f6; }
+        .hover\\:bg-blue-50:hover { background-color: #eff6ff; }
+      `}</style>
     </div>
   );
-};
-
-export default ScholarshipApplicationClient;
+}
