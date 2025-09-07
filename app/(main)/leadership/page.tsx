@@ -35,24 +35,7 @@ function getInitials(name: string): string {
 
 // Helper function to get image path based on name/role
 function getImagePath(trustee: any): string | null {
-  // Check if trustee has image property
-  if (trustee.image) {
-    return trustee.image;
-  }
-  
-  // Special case for chairman
-  if (trustee.role.toLowerCase().includes('chairman') || 
-      trustee.name.toLowerCase().includes('joshua emmanuel')) {
-    return '/chairman2.jpg';
-  }
-  
-  // You can add more specific image mappings here
-  // For example:
-  // if (trustee.name.toLowerCase().includes('specific name')) {
-  //   return '/specific-trustee-image.jpg';
-  // }
-  
-  return null;
+  return trustee.image || null;
 }
 
 // Breadcrumb items for this page
@@ -185,7 +168,7 @@ export default function LeadershipPage() {
                           />
                         </div>
                       ) : (
-                        /* Fallback to initials if no image */
+                        /* Show initials fallback for all trustees without images */
                         <div className="w-32 h-32 bg-gradient-to-r from-brand to-brand-light rounded-full 
                                        flex items-center justify-center transition-all duration-500 
                                        group-hover:scale-110 group-hover:rotate-3 shadow-lg group-hover:shadow-xl

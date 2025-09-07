@@ -242,7 +242,133 @@ export default function WhoWeAre() {
               </Link>
             </div>
           </div>
+          
         </section>
+        
+        {/* Our Team - Animated */}
+        <section className="section-padding bg-white">
+          <div className="container max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div 
+              className="relative order-2 lg:order-1"
+              id="team-visual"
+              data-animate="true"
+            >
+              <div className={`relative transform transition-all duration-1000 ease-out ${
+                visibleElements.has('team-visual') 
+                  ? 'opacity-100 scale-100' 
+                  : 'opacity-0 scale-90'
+              }`}>
+                <div className="w-80 h-80 mx-auto rounded-full bg-gradient-to-br from-brand/10 to-brand-light/10 flex items-center justify-center relative overflow-hidden">
+                  {/* Floating animated elements */}
+                  <div className={`absolute top-12 left-16 w-16 h-16 bg-brand/20 rounded-full flex items-center justify-center transition-all duration-1000 ease-out ${
+                    visibleElements.has('team-visual') 
+                      ? 'opacity-100 translate-y-0' 
+                      : 'opacity-0 -translate-y-8'
+                  }`} style={{ transitionDelay: '200ms' }}>
+                    <Users className="w-8 h-8 text-brand animate-bounce" style={{ animationDelay: '0s' }} />
+                  </div>
+                  <div className={`absolute top-20 right-12 w-12 h-12 bg-brand-light/30 rounded-full flex items-center justify-center transition-all duration-1000 ease-out ${
+                    visibleElements.has('team-visual') 
+                      ? 'opacity-100 translate-y-0' 
+                      : 'opacity-0 -translate-y-8'
+                  }`} style={{ transitionDelay: '400ms' }}>
+                    <Heart className="w-6 h-6 text-brand animate-bounce" style={{ animationDelay: '0.5s' }} />
+                  </div>
+                  <div className={`absolute bottom-16 left-20 w-14 h-14 bg-brand/15 rounded-full flex items-center justify-center transition-all duration-1000 ease-out ${
+                    visibleElements.has('team-visual') 
+                      ? 'opacity-100 translate-y-0' 
+                      : 'opacity-0 translate-y-8'
+                  }`} style={{ transitionDelay: '600ms' }}>
+                    <Target className="w-7 h-7 text-brand animate-bounce" style={{ animationDelay: '1s' }} />
+                  </div>
+                  <div className={`absolute bottom-20 right-16 w-18 h-18 bg-brand-light/25 rounded-full flex items-center justify-center transition-all duration-1000 ease-out ${
+                    visibleElements.has('team-visual') 
+                      ? 'opacity-100 translate-y-0' 
+                      : 'opacity-0 translate-y-8'
+                  }`} style={{ transitionDelay: '800ms' }}>
+                    <Award className="w-9 h-9 text-brand animate-bounce" style={{ animationDelay: '1.5s' }} />
+                  </div>
+                  
+                  <div className={`w-24 h-24 bg-gradient-to-br from-brand to-brand-light rounded-full flex items-center justify-center transition-all duration-1000 ease-out ${
+                    visibleElements.has('team-visual') 
+                      ? 'opacity-100 scale-100' 
+                      : 'opacity-0 scale-50'
+                  }`} style={{ transitionDelay: '1000ms' }}>
+                    <Users className="w-12 h-12 text-white animate-pulse" />
+                  </div>
+                </div>
+                
+                {/* Animated decorative dots */}
+                <div className={`absolute -top-4 -right-4 w-6 h-6 bg-brand/60 rounded-full transition-all duration-800 ease-out ${
+                  visibleElements.has('team-visual') 
+                    ? 'opacity-100 scale-100' 
+                    : 'opacity-0 scale-0'
+                }`} style={{ transitionDelay: '300ms' }}></div>
+                <div className={`absolute -bottom-6 -left-6 w-8 h-8 bg-brand-light/40 rounded-full transition-all duration-800 ease-out ${
+                  visibleElements.has('team-visual') 
+                    ? 'opacity-100 scale-100' 
+                    : 'opacity-0 scale-0'
+                }`} style={{ transitionDelay: '500ms' }}></div>
+                <div className={`absolute top-1/3 -left-8 w-4 h-4 bg-brand/30 rounded-full transition-all duration-800 ease-out ${
+                  visibleElements.has('team-visual') 
+                    ? 'opacity-100 scale-100' 
+                    : 'opacity-0 scale-0'
+                }`} style={{ transitionDelay: '700ms' }}></div>
+              </div>
+            </div>
+            <div 
+              className="space-y-8 order-1 lg:order-2"
+              id="team-content"
+              data-animate="true"
+            >
+              <h2 className={`text-3xl md:text-4xl lg:text-5xl font-light text-gray-900 transform transition-all duration-800 ease-out ${
+                visibleElements.has('team-content') 
+                  ? 'opacity-100 translate-x-0' 
+                  : 'opacity-0 translate-x-12'
+              }`}>
+                Our{" "}
+                <span className="bg-gradient-to-r from-brand to-brand-light bg-clip-text text-transparent">
+                  team
+                </span>
+              </h2>
+              <p className={`text-lg text-gray-700 leading-relaxed font-light transform transition-all duration-800 ease-out ${
+                visibleElements.has('team-content') 
+                  ? 'opacity-100 translate-x-0' 
+                  : 'opacity-0 translate-x-12'
+              }`} style={{ transitionDelay: '200ms' }}>
+                We believe that sustainable change happens when communities come
+                together with passionate individuals committed to making a
+                difference.
+              </p>
+              <Link
+                href="/team"
+                className={`group inline-flex items-center space-x-3 text-brand hover:text-brand-dark transition-all duration-300 transform ${
+                  visibleElements.has('team-content') 
+                    ? 'opacity-100 translate-x-0' 
+                    : 'opacity-0 translate-x-12'
+                }`}
+                style={{ transitionDelay: '400ms' }}
+              >
+                <span className="text-lg font-light uppercase">
+                  MEET OUR TEAM
+                </span>
+                <svg
+                  className="w-6 h-6 transform group-hover:translate-x-2 transition-transform duration-300"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17 8l4 4m0 0l-4 4m4-4H3"
+                  />
+                </svg>
+              </Link>
+            </div>
+          </div>
+          </section>
       </div>
 
       <style jsx>{`

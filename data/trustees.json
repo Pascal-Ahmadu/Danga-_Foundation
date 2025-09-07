@@ -6,7 +6,8 @@
     "email": "jevfutu@gmail.com",
     "gender": "Male",
     "dob": "1990-12-17",
-    "address": "Plot 1153 Mazarga Close, Mabushi, FCT"
+    "address": "Plot 1153 Mazarga Close, Mabushi, FCT",
+    "image": "/chairman2.jpg"
   },
   {
     "name": "Emmanuel Happy Kwaji",
@@ -15,7 +16,8 @@
     "email": "happykwaji@gmail.com",
     "gender": "Female",
     "dob": "1996-11-23",
-    "address": "Plot 1153 Mazarga Close, Mabushi, FCT"
+    "address": "Plot 1153 Mazarga Close, Mabushi, FCT",
+    "image": "/happy.jpg"
   },
   {
     "name": "Joshua Barka Vandi",
@@ -24,6 +26,7 @@
     "email": "barkajoshuav@gmail.com",
     "gender": "Male",
     "dob": "1985-05-05",
-    "address": "Flat 201, Block B CBN Quarters, Damboa Road, Maiduguri, Borno"
+    "address": "Flat 201, Block B CBN Quarters, Damboa Road, Maiduguri, Borno",
+    "image": "/barka.jpg"
   }
 ]
